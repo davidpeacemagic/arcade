@@ -193,6 +193,28 @@
   display: grid;
 }
 
+/* Single-row control pad (Invasion). It used to be a bare flex row with
+   content-sized buttons, so the arrows collapsed to the width of their glyph
+   (~26px) and the whole row sat against the left edge with dead space to the
+   right. Three equal tracks give every control the same generous tap target,
+   and the auto margins centre the pad on the play area above it (same
+   max-width as .bezel--wide) instead of the wider page wrap. */
+.pad--row {
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 520px;
+  margin: 12px auto 0;
+}
+
+.pad--row.is-on {
+  display: grid;
+}
+
+.pad--row .pad__btn {
+  min-height: clamp(72px, 18vw, 92px);
+  font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+}
+
 .pad__btn {
   display: grid;
   place-items: center;
@@ -219,10 +241,6 @@
   font-size: 0.55rem;
   letter-spacing: 0.16em;
   color: var(--ink-mute);
-}
-
-.pad__btn--wide {
-  grid-column: span 2;
 }
 
 .pad__btn--accent {
