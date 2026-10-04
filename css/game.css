@@ -253,9 +253,17 @@
   text-shadow: 0 0 14px rgba(var(--accent-rgb), 0.45);
 }
 
+/* The board is square (aspect-ratio: 1), so all six tracks must be identical for
+   the cells to be square. They are declared minmax(0, 1fr) rather than left to
+   auto-size: an auto track is sized from its content, and a cell holding a glyph
+   has a line box while an empty one has none — which made the row containing the
+   newest mark grow by a whole line box and squash the other two. Every move
+   resized the squares. minmax(0, ...) also stops a wide glyph from forcing a
+   track wider than its share. */
 .ttt__board {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: clamp(6px, 1.6vw, 12px);
   aspect-ratio: 1;
   padding: clamp(6px, 1.6vw, 12px);

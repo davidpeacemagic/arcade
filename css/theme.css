@@ -389,6 +389,14 @@ h3 {
   font-size: 0.95rem;
 }
 
+/* Applied to the "New Round"/"New Match" control once play has stopped: it is
+   the only way forward, so it is lit up until the player uses it. */
+.btn--invite {
+  border-color: var(--accent);
+  color: var(--ink);
+  animation: pulse-glow 1.6s ease-in-out infinite;
+}
+
 .btn[aria-pressed="true"],
 .btn.is-on {
   border-color: var(--accent);
@@ -565,15 +573,18 @@ h3 {
   }
 }
 
+/* Win flourish for the tic tac toe line. Deliberately glow-and-brightness only:
+   it used to scale the winning cells to 1.12, which made those squares visibly
+   change size and pull the rest of the grid out of alignment for the duration. */
 @keyframes pop {
   0% {
-    transform: scale(1);
+    filter: brightness(1);
   }
   40% {
-    transform: scale(1.12);
+    filter: brightness(1.6);
   }
   100% {
-    transform: scale(1);
+    filter: brightness(1);
   }
 }
 

@@ -196,6 +196,9 @@
     locked: true,
     starter: "X",
     matchOver: false,
+    // True once a round has been decided. Play never restarts itself, so this
+    // is what tells the next click on New Round to advance the round number.
+    roundOver: false,
     // True when the CPU took this round's opening move, so it plays the scripted
     // OPENING_REPLIES rather than the difficulty's own logic.
     cpuOpened: false,
@@ -320,9 +323,20 @@
     turnEl.textContent = state.matchOver ? "—" : state.turn;
     roundEl.textContent = state.matchOver ? "—" : String(state.round);
     targetEl.textContent = String(targetWins());
-    noteEl.textContent = state.matchOver
-      ? "Match complete"
-      : "Round " + state.round + " of " + values().bestOf + " · " + state.starter + " starts";
+
+    var roundNo = "Round " + state.round + " of " + values().bestOf;
+    if (state.matchOver) {
+      noteEl.textContent = "Match complete · press New Match";
+    } else if (state.roundOver) {
+      noteEl.textContent = roundNo + " complete · press New Round";
+    } else {
+      noteEl.textContent = roundNo + " · " + state.starter + " starts";
+    }
+
+    // The button is the only way forward once play has stopped, so name it for
+    // the thing it will actually do and make it the obvious next step.
+    newRoundBtn.textContent = state.matchOver ? "New Match" : "New Round";
+    newRoundBtn.classList.toggle("btn--invite", state.matchOver || state.roundOver);
   }
 
   /* ---------------------------------------------------------------------- */
@@ -525,6 +539,7 @@
     state.starter = starterForRound(state.round);
     state.turn = state.starter;
     state.locked = false;
+    state.roundOver = false;
     state.lastHumanMove = -1;
     // The CPU plays its scripted opening whenever it takes a round's first move,
     // on every difficulty. Rounds the human opens are unaffected.
@@ -596,6 +611,7 @@
 
   function finishRound(winner) {
     state.locked = true;
+    state.roundOver = true;
 
     if (!winner) {
       state.matchScore.draws++;
@@ -642,10 +658,8 @@
       return;
     }
 
-    roundTimer = window.setTimeout(function () {
-      state.round++;
-      startRound();
-    }, 1600);
+    // Deliberately no timer here: the finished board stays on screen until the
+    // player presses New Round, so a round never clears itself.
   }
 
   function endMatch() {
@@ -687,8 +701,8 @@
       screenEl.classList.add("flash");
     }
 
-    ui.toast("Match complete — starting a new one");
-    roundTimer = window.setTimeout(startMatch, 2600);
+    // No auto-restart: the final board and result stay put until the player
+    // starts the next match.
   }
 
   /* ---------------------------------------------------------------------- */
@@ -700,6 +714,9 @@
       startMatch();
       return;
     }
+    // Only a finished round advances the round number; pressing the button
+    // mid-round just restarts that round.
+    if (state.roundOver) state.round++;
     startRound();
     audio.play("select");
   });
@@ -712,10 +729,17 @@
 
   input.onKey(function (code, event, repeat) {
     if (repeat) return;
-    if (code === "Enter" && !panel.isOpen()) {
-      event.preventDefault();
-      startRound();
+    if (code !== "Enter" || panel.isOpen()) return;
+    event.preventDefault();
+    // Enter mirrors the New Round button, including starting a fresh match
+    // after one has been decided. Without this it would clear the board but
+    // leave the match flagged as over, deadlocking the grid.
+    if (state.matchOver) {
+      startMatch();
+      return;
     }
+    if (state.roundOver) state.round++;
+    startRound();
   });
 
   ui.bindPauseKey(function () {
