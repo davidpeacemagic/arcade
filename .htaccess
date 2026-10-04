@@ -1,0 +1,49 @@
+# Beat The Arcade — Apache configuration
+#
+# Serves the flat .html files from extensionless URLs: /tictactoe works, and
+# /tictactoe.html 301s to it, so every page has exactly one address.
+#
+# Apache only — GitHub Pages, Netlify, Cloudflare Pages and `python3 -m
+# http.server` all ignore this file.
+#
+# The host must permit .htaccess overrides for this directory (`AllowOverride
+# FileInfo`, or All). If the server answers 500, that is the usual cause.
+
+# mod_negotiation would resolve /tictactoe to tictactoe.html on its own, which
+# answers with a redirect that fights the canonical rules below. This file does
+# the job explicitly, so negotiation is switched off.
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- canonical redirects: one URL per page ------------------------------
+
+  # /index.html -> /      (and /some/dir/index.html -> /some/dir/)
+  RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L,NE]
+
+  # /tictactoe.html -> /tictactoe
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L,NE]
+
+  # /tictactoe/ -> /tictactoe      (no trailing-slash duplicate of the same page)
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+?)/$ /$1 [R=301,L,NE]
+
+  # --- internal rewrite: /tictactoe -> tictactoe.html ---------------------
+  # The URL bar keeps the clean form; only the file served changes, which is
+  # why the flat layout stays put and every relative asset path (css/…, js/…)
+  # keeps working untouched.
+
+  # Skip anything that is a real file or directory (stylesheets, scripts, and
+  # the document root itself, where DirectoryIndex handles the homepage).
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  # Only rewrite when the .html file actually exists, so unknown paths still
+  # 404 properly instead of being swallowed by a catch-all.
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>
+
+DirectoryIndex index.html
