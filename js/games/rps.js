@@ -3,22 +3,23 @@
    Rock paper scissors against the machine. Endless: you play on for as long as
    you like and the score just keeps counting.
 
-   THE OPENING SCRIPT — deliberate, do not "fix":
-   The first three rounds are not luck. Round one goes to you, round two to the
-   machine, round three is a dead heat — whatever you throw. The machine does
-   not roll dice: its throw is derived from yours at reveal time.
+   THE RESET SCRIPT — deliberate, do not "fix":
+   A freshly opened game is completely honest. Every hand is random, and there
+   is nothing to notice. The trick is armed by the player pressing Reset Game.
+   The next three hands after a reset are not luck: two go to you and the third
+   goes to the machine, whatever you throw. No dice are rolled for those — the
+   machine's throw is derived from yours at reveal time.
 
-     round 1   it throws the one thing your throw beats   -> you win
-     round 2   it throws the one thing that beats yours   -> you lose
-     round 3   it throws exactly what you threw           -> dead heat
-     round 4+  genuine random. Perfectly fair from here on.
+     after a reset, hand 1   it throws the one thing your throw beats  -> you win
+     after a reset, hand 2   it throws the one thing your throw beats  -> you win
+     after a reset, hand 3   it throws the one thing that beats yours  -> you lose
+     hand 4 onward           genuine random again
 
-   So the tell is that the SAME throw from you produces three different outcomes
-   in the first three rounds, and then the machine abruptly stops reading you.
-   The banner text is computed from the two throws that actually landed
-   (outcomeOf), not asserted from the script, so if the squeezing ever stops
-   working the screen says so rather than lying about it. Resetting the game
-   re-arms the opening three.
+   So the tell is that resetting always produces the same 2–1 opening, and it is
+   the player's own button press that switches it on. The banner text is
+   computed from the two throws that actually landed (outcomeOf), not asserted
+   from the script, so if the squeezing ever stops working the screen says so
+   rather than lying about it.
    ========================================================================== */
 
 (function (Arcade) {
@@ -35,8 +36,10 @@
   /* throws                                                                 */
   /* ---------------------------------------------------------------------- */
 
-  // what the opening rounds are scripted to hand the player, in order
-  var SCRIPT = ["win", "lose", "tie"];
+  // Armed only by Reset Game: two for the player, then one for the machine.
+  // Empty on a fresh load, which is what makes an opened game honest.
+  var RESET_SCRIPT = ["win", "win", "lose"];
+  var script = [];
 
   // rock beats scissors, paper beats rock, scissors beats paper
   var BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };
@@ -50,14 +53,18 @@
 
   var REVEAL_MS = 640;
 
-  /** The result the opening rounds are scripted to hand the player, else null. */
-  function scriptedResult(round) {
-    return round <= SCRIPT.length ? SCRIPT[round - 1] : null;
+  /**
+   * Take the next scripted result, or null to let the machine throw for real.
+   * Consuming the queue (rather than counting rounds) is what keeps the script
+   * attached to the reset that armed it.
+   */
+  function takeScriptedResult() {
+    return script.length ? script.shift() : null;
   }
 
   /**
-   * The machine's throw. `wanted` is the scripted result for the opening three
-   * rounds, and null from round four on — where it throws genuinely at random.
+   * The machine's throw. `wanted` is the scripted result when the reset script
+   * is still running, and null otherwise — where it throws genuinely at random.
    */
   function machineThrowFor(playerThrow, wanted) {
     if (wanted === null) return THROWS[Math.floor(Math.random() * THROWS.length)];
@@ -271,7 +278,12 @@
     paintHud();
   }
 
-  function startGame() {
+  /**
+   * Clear the table. `armScript` is true only for Reset Game — an opened game is
+   * honest, and the script is something the player switches on themselves.
+   */
+  function resetGame(armScript) {
+    script = armScript ? RESET_SCRIPT.slice() : [];
     state.score = { wins: 0, losses: 0, draws: 0 };
     state.round = 1;
     state.roundOver = false;
@@ -304,7 +316,7 @@
   }
 
   function reveal() {
-    state.machineThrow = machineThrowFor(state.playerThrow, scriptedResult(state.round));
+    state.machineThrow = machineThrowFor(state.playerThrow, takeScriptedResult());
     state.result = outcomeOf(state.playerThrow, state.machineThrow);
     state.throwInFlight = false;
     state.roundOver = true;
@@ -363,7 +375,7 @@
 
   resetBtn.addEventListener("click", function () {
     audio.play("select");
-    startGame();
+    resetGame(true);
   });
 
   input.onKey(function (code, event, repeat) {
@@ -379,5 +391,5 @@
   /* ---------------------------------------------------------------------- */
 
   Arcade.ui.init({ settings: panel });
-  startGame();
+  resetGame(false);
 })((window.Arcade = window.Arcade || {}));

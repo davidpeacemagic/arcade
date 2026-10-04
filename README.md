@@ -57,7 +57,7 @@ js/core/settings.js     declarative settings schema → slide-in panel
 js/games/tictactoe.js   DOM board, minimax CPU, best-of-N matches
 js/games/invasion.js    waves, bunkers, drone, particles
 js/games/blocks.js      SRS, seven-bag, hold, ghost, next queue
-js/games/rps.js         DOM throws, scripted opening three, then endless random
+js/games/rps.js         DOM throws, honest by default, scripted 2–1 after a reset
 ```
 
 Each page loads `js/core/*` in dependency order, then its own game file.
