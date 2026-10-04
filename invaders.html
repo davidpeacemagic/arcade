@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Space Invaders · Beat The Arcade</title>
+    <meta
+      name="description"
+      content="Space Invaders with endless waves, destructible bunkers, a bonus saucer and keyboard or touch controls."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305060a'/%3E%3Crect x='6' y='12' width='20' height='8' fill='%23ff2bd6'/%3E%3Crect x='12' y='6' width='8' height='4' fill='%23ff2bd6'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Chakra+Petch:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/game.css" />
+  </head>
+
+  <body
+    class="site"
+    style="--accent: #ff2bd6; --accent-rgb: 255, 43, 214; --accent-2: #b6ff2b; --accent-2-rgb: 182, 255, 43"
+  >
+    <a class="visually-hidden" href="#main">Skip to content</a>
+
+    <header class="hdr">
+      <a class="hdr__back" href="index.html">←<span>Arcade</span></a>
+      <span class="hdr__title">Space Invaders</span>
+      <span class="hdr__spacer"></span>
+      <div class="hdr__tools">
+        <button
+          class="btn btn--icon btn--ghost"
+          type="button"
+          data-tool="mute"
+          aria-pressed="true"
+          aria-label="Sound off"
+        >
+          🔇
+        </button>
+        <button
+          class="btn btn--icon btn--ghost"
+          type="button"
+          data-tool="settings"
+          aria-label="Open settings"
+        >
+          ⚙
+        </button>
+      </div>
+    </header>
+
+    <main id="main" class="site__main wrap">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">Game 02 · Endless waves</span>
+          <h1 class="display">Space Invaders</h1>
+        </div>
+        <button class="btn" type="button" data-tool="settings">⚙ Settings</button>
+      </div>
+
+      <section class="bezel bezel--wide ticks" style="margin-inline: auto">
+        <div class="hud">
+          <div class="hud__cell">
+            <h3>Score</h3>
+            <b id="invScore">0</b>
+          </div>
+          <div class="hud__cell">
+            <h3>Hi-Score</h3>
+            <b id="invHi">0</b>
+          </div>
+          <div class="hud__cell">
+            <h3>Wave</h3>
+            <b id="invWave">1</b>
+          </div>
+          <div class="hud__cell">
+            <h3>Lives</h3>
+            <div class="lives" id="invLives"></div>
+          </div>
+        </div>
+
+        <div class="bezel__screen screen--invaders">
+          <canvas id="invCanvas" aria-label="Space Invaders play area"></canvas>
+        </div>
+      </section>
+
+      <div class="pad" id="invPad">
+        <button class="pad__btn" type="button" data-control="left" aria-label="Move left">◀</button>
+        <button class="pad__btn pad__btn--wide pad__btn--accent" type="button" data-control="fire">
+          FIRE
+        </button>
+        <button class="pad__btn" type="button" data-control="right" aria-label="Move right">▶</button>
+      </div>
+
+      <p class="keys keyboard-only">
+        <span><kbd>←</kbd><kbd>→</kbd> move</span>
+        <span><kbd>space</kbd> fire</span>
+        <span><kbd>P</kbd> pause</span>
+        <span><kbd>R</kbd> restart</span>
+      </p>
+    </main>
+
+    <div id="settings"></div>
+
+    <footer class="ftr">
+      <div class="wrap ftr__inner">
+        <span>© <span data-year>2026</span> Beat The Arcade</span>
+        <span>High scores are saved on this device</span>
+      </div>
+    </footer>
+
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/canvas.js"></script>
+    <script src="js/core/loop.js"></script>
+    <script src="js/core/input.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/settings.js"></script>
+    <script src="js/games/invaders.js"></script>
+  </body>
+</html>

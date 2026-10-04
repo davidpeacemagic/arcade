@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Beat The Arcade — Tic Tac Toe · Space Invaders · Tetris</title>
+    <meta
+      name="description"
+      content="Three arcade classics rebuilt for the browser: Tic Tac Toe, Space Invaders and Tetris. Neon, noise and one more go."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305060a'/%3E%3Cpath d='M6 22 16 6l10 16' stroke='%2300f0ff' stroke-width='3' fill='none'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Chakra+Petch:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+  </head>
+
+  <body class="site">
+    <a class="visually-hidden" href="#main">Skip to content</a>
+
+    <header class="hdr">
+      <a class="hdr__brand" href="index.html">BEAT THE<b>ARCADE</b></a>
+      <span class="hdr__title">3 cabinets · free play</span>
+      <span class="hdr__spacer"></span>
+      <div class="hdr__tools">
+        <button
+          class="btn btn--icon btn--ghost"
+          type="button"
+          data-tool="mute"
+          aria-pressed="true"
+          aria-label="Sound off"
+        >
+          🔇
+        </button>
+      </div>
+    </header>
+
+    <main id="main" class="site__main wrap">
+      <section class="hero">
+        <p class="eyebrow">Can you beat me?</p>
+        <h1 class="hero__title glitch display" data-text="BEAT THE ARCADE">Beat The Arcade</h1>
+        <p class="hero__sub">
+          Three classics, rebuilt for the browser. Neon glow, chunky pixels and a very
+          persistent high-score table.
+        </p>
+        <div class="hero__meta">
+          <span>Games <b>03</b></span>
+          <span>Credits <b>Free play</b></span>
+          <span>Sound <b>Off by default</b></span>
+        </div>
+      </section>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker__track">
+          <span>▚ Tic Tac Toe <b>1P / 2P</b></span>
+          <span>▚ Space Invaders <b>Endless waves</b></span>
+          <span>▚ Tetris <b>7-bag · SRS · Hold</b></span>
+          <span>▚ High scores saved on this device</span>
+          <span>▚ Touch controls enabled</span>
+          <span>▚ Tic Tac Toe <b>1P / 2P</b></span>
+          <span>▚ Space Invaders <b>Endless waves</b></span>
+          <span>▚ Tetris <b>7-bag · SRS · Hold</b></span>
+          <span>▚ High scores saved on this device</span>
+          <span>▚ Touch controls enabled</span>
+          <span>▚ Tic Tac Toe <b>1P / 2P</b></span>
+          <span>▚ Space Invaders <b>Endless waves</b></span>
+          <span>▚ Tetris <b>7-bag · SRS · Hold</b></span>
+          <span>▚ High scores saved on this device</span>
+          <span>▚ Touch controls enabled</span>
+        </div>
+      </div>
+
+      <ul class="cards">
+        <li class="card ticks" style="--card-rgb: 0, 240, 255">
+          <span class="card__no">01</span>
+          <div class="card__art" aria-hidden="true">
+            <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+              <path d="M24 6v60M48 6v60M6 24h60M6 48h60" />
+              <path d="M10 10l10 10M20 10L10 20" />
+              <circle cx="54" cy="54" r="7" />
+            </svg>
+          </div>
+          <h2 class="card__name">Tic Tac Toe</h2>
+          <p class="card__desc">
+            Play a friend on one screen, or take on a CPU that ranges from careless to
+            literally unbeatable.
+          </p>
+          <div class="card__foot">
+            <span class="card__hi">Solo wins <b data-solo-wins="tictactoe">—</b></span>
+            <span class="btn">Play</span>
+          </div>
+          <a class="card__link" href="tictactoe.html">
+            <span class="visually-hidden">Play Tic Tac Toe</span>
+          </a>
+        </li>
+
+        <li class="card ticks" style="--card-rgb: 255, 43, 214">
+          <span class="card__no">02</span>
+          <div class="card__art" aria-hidden="true">
+            <svg viewBox="0 0 72 72" fill="currentColor">
+              <rect x="30" y="6" width="12" height="6" />
+              <rect x="18" y="12" width="36" height="12" />
+              <rect x="12" y="24" width="48" height="12" />
+              <rect x="6" y="36" width="12" height="6" />
+              <rect x="54" y="36" width="12" height="6" />
+              <rect x="12" y="42" width="12" height="6" />
+              <rect x="48" y="42" width="12" height="6" />
+              <rect x="24" y="48" width="6" height="6" />
+              <rect x="42" y="48" width="6" height="6" />
+            </svg>
+          </div>
+          <h2 class="card__name">Space Invaders</h2>
+          <p class="card__desc">
+            Waves that speed up as they thin out, destructible bunkers and a bonus saucer
+            worth chasing.
+          </p>
+          <div class="card__foot">
+            <span class="card__hi">High score <b data-best="invaders">—</b></span>
+            <span class="btn">Play</span>
+          </div>
+          <a class="card__link" href="invaders.html">
+            <span class="visually-hidden">Play Space Invaders</span>
+          </a>
+        </li>
+
+        <li class="card ticks" style="--card-rgb: 182, 255, 43">
+          <span class="card__no">03</span>
+          <div class="card__art" aria-hidden="true">
+            <svg viewBox="0 0 72 72" fill="currentColor">
+              <rect x="6" y="42" width="14" height="14" rx="2" />
+              <rect x="20" y="42" width="14" height="14" rx="2" />
+              <rect x="34" y="42" width="14" height="14" rx="2" />
+              <rect x="34" y="28" width="14" height="14" rx="2" />
+              <rect x="48" y="6" width="14" height="14" rx="2" />
+              <rect x="48" y="20" width="14" height="14" rx="2" />
+              <rect x="34" y="6" width="14" height="14" rx="2" />
+              <rect x="6" y="6" width="14" height="14" rx="2" opacity=".35" />
+            </svg>
+          </div>
+          <h2 class="card__name">Tetris</h2>
+          <p class="card__desc">
+            Seven-bag randomiser, SRS wall kicks, ghost piece and hold. Levels one through
+            ten, then good luck.
+          </p>
+          <div class="card__foot">
+            <span class="card__hi">High score <b data-best="tetris">—</b></span>
+            <span class="btn">Play</span>
+          </div>
+          <a class="card__link" href="tetris.html">
+            <span class="visually-hidden">Play Tetris</span>
+          </a>
+        </li>
+      </ul>
+    </main>
+
+    <footer class="ftr">
+      <div class="wrap ftr__inner">
+        <span>© <span data-year>2026</span> Beat The Arcade · Vanilla HTML, CSS and JS</span>
+        <span><kbd>←</kbd><kbd>→</kbd> move · <kbd>space</kbd> fire · <kbd>P</kbd> pause</span>
+      </div>
+    </footer>
+
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/input.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script>
+      Arcade.ui.init();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Tic Tac Toe · Beat The Arcade</title>
+    <meta
+      name="description"
+      content="Tic Tac Toe with one or two players, a choice of starting player and three CPU difficulty levels."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305060a'/%3E%3Cpath d='M11 4v24M21 4v24M4 11h24M4 21h24' stroke='%2300f0ff' stroke-width='2' fill='none'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Chakra+Petch:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/game.css" />
+  </head>
+
+  <body
+    class="site"
+    style="--accent: #00f0ff; --accent-rgb: 0, 240, 255; --accent-2: #ff2bd6; --accent-2-rgb: 255, 43, 214"
+  >
+    <a class="visually-hidden" href="#main">Skip to content</a>
+
+    <header class="hdr">
+      <a class="hdr__back" href="index.html">←<span>Arcade</span></a>
+      <span class="hdr__title">Tic Tac Toe</span>
+      <span class="hdr__spacer"></span>
+      <div class="hdr__tools">
+        <button
+          class="btn btn--icon btn--ghost"
+          type="button"
+          data-tool="mute"
+          aria-pressed="true"
+          aria-label="Sound off"
+        >
+          🔇
+        </button>
+        <button
+          class="btn btn--icon btn--ghost"
+          type="button"
+          data-tool="settings"
+          aria-label="Open settings"
+        >
+          ⚙
+        </button>
+      </div>
+    </header>
+
+    <main id="main" class="site__main wrap">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">Game 01 · Two players or one</span>
+          <h1 class="display">Tic Tac Toe</h1>
+        </div>
+        <button class="btn" type="button" data-tool="settings">⚙ Settings</button>
+      </div>
+
+      <section class="bezel ticks" style="max-width: 520px; margin-inline: auto">
+        <div class="bezel__screen">
+          <div class="screen-pad ttt-screen">
+            <div class="hud">
+              <div class="hud__cell">
+                <h3>Mode</h3>
+                <b id="tttMode">1P</b>
+              </div>
+              <div class="hud__cell">
+                <h3>Turn</h3>
+                <b id="tttTurn">X</b>
+              </div>
+              <div class="hud__cell">
+                <h3>Round</h3>
+                <b id="tttRound">1</b>
+              </div>
+              <div class="hud__cell">
+                <h3>Target</h3>
+                <b id="tttTarget">1</b>
+              </div>
+            </div>
+
+            <p class="ttt__status" id="tttStatus" role="status" aria-live="polite"></p>
+
+            <div
+              class="ttt__board"
+              id="tttBoard"
+              role="group"
+              aria-label="Tic tac toe board, three by three"
+            ></div>
+
+            <div class="ttt__score" id="tttScore"></div>
+            <p class="ttt__round" id="tttRoundNote"></p>
+
+            <div class="toolbar">
+              <button class="btn btn--ghost" type="button" id="tttNewRound">New Round</button>
+              <button class="btn btn--ghost" type="button" id="tttResetMatch">
+                Reset Match
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <p class="keys keyboard-only">
+        <span>Tap a square to play</span>
+        <span><kbd>enter</kbd> new round</span>
+        <span><kbd>P</kbd> settings</span>
+      </p>
+    </main>
+
+    <div id="settings"></div>
+
+    <footer class="ftr">
+      <div class="wrap ftr__inner">
+        <span>© <span data-year>2026</span> Beat The Arcade</span>
+        <span>Match results are saved on this device</span>
+      </div>
+    </footer>
+
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/input.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/settings.js"></script>
+    <script src="js/games/tictactoe.js"></script>
+  </body>
+</html>

@@ -1,0 +1,405 @@
+/* ==========================================================================
+   Beat The Arcade — layout.css
+   Page shell: header, homepage hero, game cards, footer, generic page frame.
+   ========================================================================== */
+
+/* ==========================================================================
+   shell
+   ========================================================================== */
+
+.wrap {
+  width: min(100% - 2rem, var(--maxw));
+  margin-inline: auto;
+}
+
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.site__main {
+  flex: 1 1 auto;
+  padding-block: clamp(1.2rem, 3vw, 2.6rem) clamp(2rem, 5vw, 4rem);
+}
+
+/* ==========================================================================
+   header
+   ========================================================================== */
+
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: 8000;
+  min-height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 0.5rem clamp(0.75rem, 2vw, 1.5rem);
+  background: linear-gradient(180deg, rgba(6, 8, 16, 0.94), rgba(6, 8, 16, 0.72));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.hdr::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.8), transparent);
+}
+
+.hdr__brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.hdr__brand:hover {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.hdr__brand b {
+  color: var(--accent);
+  font-weight: 900;
+}
+
+.hdr__title {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hdr__spacer {
+  flex: 1 1 auto;
+}
+
+.hdr__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hdr__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0 0.7rem 0 0.5rem;
+  border: 1px solid var(--line-bright);
+  border-radius: var(--r-sm);
+  color: var(--ink-dim);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hdr__back:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+@media (max-width: 560px) {
+  .hdr__back span {
+    display: none;
+  }
+
+  .hdr__back {
+    width: 40px;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+/* ==========================================================================
+   hero
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  padding-block: clamp(1.5rem, 6vw, 4rem) clamp(1rem, 3vw, 2rem);
+  text-align: center;
+}
+
+.hero__title {
+  position: relative;
+  display: inline-block;
+  margin-block: 0.35rem 0.6rem;
+  font-size: clamp(2.4rem, 11vw, 6rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.hero__sub {
+  max-width: 46ch;
+  margin-inline: auto;
+  color: var(--ink-dim);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.4rem;
+  margin-top: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.hero__meta b {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+/* marquee ticker */
+.ticker {
+  position: relative;
+  overflow: hidden;
+  margin-top: clamp(1rem, 3vw, 2rem);
+  border-block: 1px solid var(--line);
+  background: rgba(10, 12, 24, 0.6);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: sweep 26s linear infinite;
+}
+
+.ticker__track span {
+  padding: 0.55rem 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+
+.ticker__track span b {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   game cards
+   ========================================================================== */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--gap);
+  margin-top: clamp(1.4rem, 4vw, 2.8rem);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: clamp(1.1rem, 2.4vw, 1.6rem);
+  overflow: hidden;
+  color: var(--ink);
+  background: linear-gradient(165deg, rgba(22, 27, 58, 0.92), rgba(8, 10, 20, 0.95));
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  transition: transform var(--dur-slow) var(--ease), border-color var(--dur) var(--ease),
+    box-shadow var(--dur-slow) var(--ease);
+  animation: rise 520ms var(--ease) both;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 80% at 100% 0%, rgba(var(--card-rgb), 0.22), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease);
+  pointer-events: none;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(var(--card-rgb), 0.85);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 26px rgba(var(--card-rgb), 0.22);
+}
+
+.card:hover::before,
+.card:focus-within::before {
+  opacity: 1;
+}
+
+.card:nth-child(1) {
+  animation-delay: 60ms;
+}
+
+.card:nth-child(2) {
+  animation-delay: 140ms;
+}
+
+.card:nth-child(3) {
+  animation-delay: 220ms;
+}
+
+.card__art {
+  display: grid;
+  place-items: center;
+  height: 104px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(var(--card-rgb), 0.28);
+  background:
+    linear-gradient(180deg, rgba(var(--card-rgb), 0.14), transparent 70%),
+    repeating-linear-gradient(to right, rgba(var(--card-rgb), 0.1) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(to bottom, rgba(var(--card-rgb), 0.1) 0 1px, transparent 1px 14px),
+    #06070e;
+  color: rgb(var(--card-rgb));
+  overflow: hidden;
+}
+
+.card__art svg {
+  width: auto;
+  height: 72px;
+  filter: drop-shadow(0 0 6px rgba(var(--card-rgb), 0.7));
+}
+
+.card__no {
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-mute);
+}
+
+.card__name {
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  color: var(--ink);
+}
+
+.card__desc {
+  font-size: 0.9rem;
+  color: var(--ink-dim);
+  flex: 1 1 auto;
+}
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--line);
+}
+
+.card__hi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.card__hi b {
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  color: rgb(var(--card-rgb));
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(var(--card-rgb), 0.5);
+}
+
+/* whole-card link overlay so the card is one big tap target */
+.card__link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.card__link:focus-visible {
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+   footer
+   ========================================================================== */
+
+.ftr {
+  border-top: 1px solid var(--line);
+  padding-block: 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.ftr__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ftr kbd {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.1em 0.45em;
+  border: 1px solid var(--line-bright);
+  border-radius: var(--r-xs);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink-dim);
+}
+
+/* ==========================================================================
+   generic page heading used above game boards
+   ========================================================================== */
+
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.6rem 1.4rem;
+  margin-bottom: clamp(0.9rem, 2vw, 1.6rem);
+}
+
+.page-head h1 {
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+}
+
+.page-head .eyebrow {
+  display: block;
+  margin-bottom: 0.35rem;
+}
