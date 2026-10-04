@@ -51,3 +51,18 @@ Options -MultiViews
 </IfModule>
 
 DirectoryIndex index.html
+
+# --- caching ---------------------------------------------------------------
+# The host sends `Cache-Control: public, max-age=604800` (7 days) for static
+# files. With no build step and no hashed filenames, that means an edit to a
+# stylesheet can stay invisible to anyone holding the old copy for a week —
+# which is exactly how a page ends up with new HTML, new JS and a stale
+# stylesheet. HTML, CSS and JS therefore revalidate on every load instead.
+# The `?v=` on the asset URLs in the pages is the one-off bust that gets
+# browsers past a copy they already have. If the CDN in front ignores this,
+# purge its cache after a deploy.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
