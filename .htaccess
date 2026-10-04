@@ -53,17 +53,28 @@ Options -MultiViews
 DirectoryIndex index.html
 
 # --- caching ---------------------------------------------------------------
-# The host sends `Cache-Control: public, max-age=604800` (7 days) for static
-# files. With no build step and no hashed filenames, that means an edit to a
-# stylesheet can stay invisible to anyone holding the old copy for a week —
-# which is exactly how a page ends up with new HTML, new JS and a stale
-# stylesheet. HTML, CSS and JS therefore revalidate on every load instead.
-# The `?v=` on the asset URLs in the pages is the one-off bust that gets
-# browsers past a copy they already have. If the CDN in front ignores this,
-# purge its cache after a deploy.
+# The CDN in front (`hcdn`) serves the HTML pages dynamically — every page
+# request reaches this server, so a page edit is live the moment it is uploaded
+# — and caches CSS and JS at its edge. How long it keeps them comes from these
+# headers: the CDN honours `s-maxage`, browsers honour `max-age`.
+#
+# The host's own default is seven days (`public, max-age=604800` plus an
+# `Expires` a week out), which is what makes a stylesheet edit invisible for a
+# week unless the URL changes. Five minutes overrules it: short enough that an
+# edit appears on its own, with no version tag in the URLs and no manual cache
+# flush; long enough that clicking through the games does not refetch the same
+# twelve files on every page. Revalidating after that is cheap — this server
+# already sends an ETag, so it answers 304.
+#
+# If a change ever stops appearing, check that this whole file is really on the
+# server, then press `Flush cache` in the CDN panel. An older copy of this file
+# has been deployed before, and the CDN holds its own copies independently.
+#
+# The `IfModule` guard hides a silent failure: without mod_headers none of this
+# applies and the host's seven-day default stands, with no error to show for it.
 <IfModule mod_headers.c>
   <FilesMatch "\.(html|css|js)$">
-    Header set Cache-Control "no-cache, must-revalidate"
+    Header set Cache-Control "public, max-age=300, s-maxage=300, must-revalidate"
   </FilesMatch>
 </IfModule>
 
