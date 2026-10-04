@@ -4,22 +4,25 @@
    you like and the score just keeps counting.
 
    THE RESET SCRIPT — deliberate, do not "fix":
-   A freshly opened game is completely honest. Every hand is random, and there
-   is nothing to notice. The trick is armed by the player pressing Reset Game.
-   The next three hands after a reset are not luck: two go to you and the third
-   goes to the machine, whatever you throw. No dice are rolled for those — the
-   machine's throw is derived from yours at reveal time.
+   A freshly opened game is completely honest. Every hand is random, and there is
+   nothing to notice. The trick fires on the FIRST press of Reset Game in a
+   browser session — and only that first press. The three hands that follow are
+   not luck: two go to you and the third goes to the machine, whatever you throw.
+   No dice are rolled for those — the machine's throw is derived from yours at
+   reveal time.
 
-     after a reset, hand 1   it throws the one thing your throw beats  -> you win
-     after a reset, hand 2   it throws the one thing your throw beats  -> you win
-     after a reset, hand 3   it throws the one thing that beats yours  -> you lose
-     hand 4 onward           genuine random again
+     first reset of the session, hand 1   the thing your throw beats  -> you win
+     first reset of the session, hand 2   the thing your throw beats  -> you win
+     first reset of the session, hand 3   the thing that beats yours  -> you lose
+     hand 4 onward                        genuine random again
 
-   So the tell is that resetting always produces the same 2–1 opening, and it is
-   the player's own button press that switches it on. The banner text is
-   computed from the two throws that actually landed (outcomeOf), not asserted
-   from the script, so if the squeezing ever stops working the screen says so
-   rather than lying about it.
+   Every later reset in that session is honest, so the 2–1 opening cannot be
+   reproduced on demand — press reset twice and you will not see it twice. The
+   flag is session-scoped (one hook per tab, surviving reloads), with an
+   in-memory fallback when storage is unavailable. The banner text is computed
+   from the two throws that actually landed (outcomeOf), not asserted from the
+   script, so if the squeezing ever stops working the screen says so rather than
+   lying about it.
    ========================================================================== */
 
 (function (Arcade) {
@@ -36,10 +39,34 @@
   /* throws                                                                 */
   /* ---------------------------------------------------------------------- */
 
-  // Armed only by Reset Game: two for the player, then one for the machine.
-  // Empty on a fresh load, which is what makes an opened game honest.
+  // Armed only by the first Reset Game press of a session: two for the player,
+  // then one for the machine. Empty on a fresh load, which is what makes an
+  // opened game honest.
   var RESET_SCRIPT = ["win", "win", "lose"];
   var script = [];
+
+  var SESSION_KEY = "arcade.v1.rps.hooked";
+  var hookedThisLoad = false;
+
+  /** True once the reset script has already fired in this browser session. */
+  function alreadyHooked() {
+    if (hookedThisLoad) return true;
+    try {
+      return window.sessionStorage.getItem(SESSION_KEY) === "1";
+    } catch (err) {
+      return false;
+    }
+  }
+
+  /** Remember the hook so no later reset in this session repeats it. */
+  function markHooked() {
+    hookedThisLoad = true;
+    try {
+      window.sessionStorage.setItem(SESSION_KEY, "1");
+    } catch (err) {
+      /* private mode — the in-memory flag still covers this page load */
+    }
+  }
 
   // rock beats scissors, paper beats rock, scissors beats paper
   var BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };
@@ -279,11 +306,14 @@
   }
 
   /**
-   * Clear the table. `armScript` is true only for Reset Game — an opened game is
-   * honest, and the script is something the player switches on themselves.
+   * Clear the table. `fromResetPress` is true only for the Reset Game button;
+   * boot passes false. The script is armed by the first reset of a browser
+   * session and never again, so a second press gives an honest game.
    */
-  function resetGame(armScript) {
-    script = armScript ? RESET_SCRIPT.slice() : [];
+  function resetGame(fromResetPress) {
+    var arm = !!fromResetPress && !alreadyHooked();
+    if (arm) markHooked();
+    script = arm ? RESET_SCRIPT.slice() : [];
     state.score = { wins: 0, losses: 0, draws: 0 };
     state.round = 1;
     state.roundOver = false;
