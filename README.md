@@ -1,8 +1,8 @@
 # Beat The Arcade
 
-Three arcade classics rebuilt as a plain static site: **Tic Tac Toe**, **Invasion**
-and **Blocks**. Neon/CRT styling, working high-score tables and
-per-game settings that persist on the device.
+Four arcade classics rebuilt as a plain static site: **Tic Tac Toe**, **Invasion**,
+**Blocks** and **Rock Paper Scissors**. Neon/CRT styling, working high-score
+tables and per-game settings that persist on the device.
 
 No build step, no package manager, no dependencies except a Google Fonts
 stylesheet. Every sound effect is generated in the browser with the Web Audio
@@ -26,13 +26,21 @@ Upload the whole folder to any static host. All asset paths are relative, so it
 works at a domain root or in a subfolder such as `example.com/games/arcade/`.
 There is no server-side code and no service worker.
 
+The included `.htaccess` is **Apache only**. It serves the pages from
+extensionless URLs (`/tictactoe` instead of `/tictactoe.html`, with the `.html`
+form 301-ing to it) and needs `AllowOverride FileInfo` or `All` to take effect.
+Other hosts ignore the file and simply serve the `.html` URLs; on
+`python3 -m http.server` nothing changes at all.
+
 ## Files
 
 ```
-index.html              homepage — hero, ticker and the three game cards
+index.html              homepage — hero, ticker and the four game cards
 tictactoe.html          game pages: header, HUD, play area, settings host
 invasion.html
 blocks.html
+rps.html
+.htaccess               Apache only: extensionless URLs, .html 301s to clean
 
 css/theme.css           design tokens, reset, CRT + glitch effects, keyframes
 css/layout.css          page shell, header, hero, cards, footer
@@ -49,6 +57,7 @@ js/core/settings.js     declarative settings schema → slide-in panel
 js/games/tictactoe.js   DOM board, minimax CPU, best-of-N matches
 js/games/invasion.js    waves, bunkers, drone, particles
 js/games/blocks.js      SRS, seven-bag, hold, ghost, next queue
+js/games/rps.js         DOM throws, forced win/lose/draw match
 ```
 
 Each page loads `js/core/*` in dependency order, then its own game file.

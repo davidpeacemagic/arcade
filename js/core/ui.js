@@ -53,7 +53,8 @@
     var map = {
       tictactoe: "Tic Tac Toe",
       invasion: "Invasion",
-      blocks: "Blocks"
+      blocks: "Blocks",
+      rps: "Rock Paper Scissors"
     };
     return map[gameId] || "Arcade";
   }
@@ -588,6 +589,19 @@
       var solo = (stats && stats["1p"]) || {};
       var count = solo.wins || 0;
       node.textContent = count > 0 ? formatNumber(count) : "—";
+    });
+
+    // rock paper scissors has no score either: its card shows the running
+    // win/loss/draw record, which always comes out level
+    var records = document.querySelectorAll("[data-record]");
+    Array.prototype.forEach.call(records, function (node) {
+      var id = node.getAttribute("data-record");
+      var stats = storage.getStats(id, {});
+      var solo = (stats && stats["1p"]) || {};
+      var w = solo.wins || 0;
+      var l = solo.losses || 0;
+      var d = solo.draws || 0;
+      node.textContent = w + l + d > 0 ? w + " – " + l + " – " + d : "—";
     });
   }
 

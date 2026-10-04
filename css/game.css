@@ -396,6 +396,168 @@
 }
 
 /* ==========================================================================
+   rock paper scissors
+   ========================================================================== */
+
+.rps-screen {
+  display: grid;
+  gap: clamp(0.7rem, 1.8vw, 1rem);
+}
+
+.rps__status {
+  min-height: 1.9em;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 2.4vw, 1rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 14px rgba(var(--accent-rgb), 0.45);
+}
+
+/* the two hands, with the machine's kept face down until the reveal */
+.rps__hands {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: clamp(0.5rem, 1.6vw, 0.9rem);
+}
+
+.rps__hand {
+  display: grid;
+  place-items: center;
+  gap: 0.45rem;
+  padding: clamp(0.7rem, 2vw, 1rem) 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background:
+    linear-gradient(180deg, rgba(var(--accent-rgb), 0.07), transparent 70%),
+    #06070f;
+  transition: border-color 140ms linear, box-shadow 140ms linear;
+}
+
+.rps__who {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.rps__icon {
+  display: grid;
+  place-items: center;
+  width: clamp(46px, 13vw, 70px);
+  height: clamp(46px, 13vw, 70px);
+  color: var(--accent);
+}
+
+.rps__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* face-down: a placeholder question mark, no icon in the DOM at all */
+.rps__hand[data-hand="none"] .rps__icon {
+  color: var(--ink-mute);
+}
+
+.rps__hand[data-hand="none"] .rps__icon::before {
+  content: "?";
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  opacity: 0.5;
+}
+
+/* whoever took the round wears the lime ring */
+.rps__hand.is-win {
+  border-color: var(--lime);
+  box-shadow: 0 0 0 1px var(--lime), 0 0 26px rgba(182, 255, 43, 0.35);
+}
+
+.rps__hand.is-win .rps__icon {
+  color: var(--lime);
+}
+
+.rps__hand.is-shaking {
+  animation: shake 220ms steps(2, end) 1;
+}
+
+/* brightness-only, like the tic tac toe win flash: no size change */
+.rps__hand.is-revealed {
+  animation: pop 380ms var(--ease) 1;
+}
+
+.rps__versus {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+}
+
+.rps__throws {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(6px, 1.6vw, 10px);
+}
+
+.rps__throw {
+  display: grid;
+  place-items: center;
+  gap: 0.4rem;
+  min-height: clamp(78px, 20vw, 96px);
+  padding: 0.5rem 0.25rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  border-radius: var(--r-sm);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.14), rgba(var(--accent-rgb), 0.03));
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 90ms linear, border-color 90ms linear, transform 90ms linear;
+}
+
+.rps__throw:hover:not(:disabled),
+.rps__throw:focus-visible:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.2);
+}
+
+.rps__throw:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.rps__throw:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.rps__throw .rps__icon {
+  width: clamp(26px, 7.5vw, 36px);
+  height: clamp(26px, 7.5vw, 36px);
+}
+
+.rps__throw-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.rps__round {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* ==========================================================================
    blocks side panels
    ========================================================================== */
 

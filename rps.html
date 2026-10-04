@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Rock Paper Scissors · Beat The Arcade</title>
+    <meta
+      name="description"
+      content="Rock paper scissors against a machine that never seems to lose — or win. Best of three, keyboard or touch."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305060a'/%3E%3Cg stroke='%23ffb02b' stroke-width='2.4' fill='none' stroke-linecap='round'%3E%3Cpath d='M10.5 5.5l11 14M21.5 5.5l-11 14'/%3E%3Ccircle cx='9.6' cy='24.4' r='3.3'/%3E%3Ccircle cx='22.4' cy='24.4' r='3.3'/%3E%3C/g%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Chakra+Petch:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+    />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/game.css" />
+  </head>
+
+  <body
+    class="site"
+    style="--accent: #ffb02b; --accent-rgb: 255, 176, 43; --accent-2: #00f0ff; --accent-2-rgb: 0, 240, 255"
+  >
+    <a class="visually-hidden" href="#main">Skip to content</a>
+
+    <header class="hdr">
+      <a class="hdr__back" href="index.html">←<span>Arcade</span></a>
+      <span class="hdr__title">Rock Paper Scissors</span>
+      <span class="hdr__spacer"></span>
+      <div class="hdr__tools">
+        <button
+          class="btn btn--icon btn--ghost"
+          type="button"
+          data-tool="mute"
+          aria-pressed="true"
+          aria-label="Sound off"
+        >
+          🔇
+        </button>
+        <button
+          class="btn btn--icon btn--ghost"
+          type="button"
+          data-tool="settings"
+          aria-label="Open settings"
+        >
+          ⚙
+        </button>
+      </div>
+    </header>
+
+    <main id="main" class="site__main wrap">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">Game 04 · Best of three</span>
+          <h1 class="display">Rock Paper Scissors</h1>
+        </div>
+      </div>
+
+      <section class="bezel ticks" style="max-width: 520px; margin-inline: auto">
+        <div class="bezel__screen">
+          <div class="screen-pad rps-screen">
+            <div class="hud">
+              <div class="hud__cell">
+                <h3>Round</h3>
+                <b id="rpsRound">1/3</b>
+              </div>
+              <div class="hud__cell">
+                <h3>You</h3>
+                <b id="rpsYou">0</b>
+              </div>
+              <div class="hud__cell">
+                <h3>Machine</h3>
+                <b id="rpsMachine">0</b>
+              </div>
+              <div class="hud__cell">
+                <h3>Drawn</h3>
+                <b id="rpsDrawn">0</b>
+              </div>
+            </div>
+
+            <p class="rps__status" id="rpsStatus" role="status" aria-live="polite"></p>
+
+            <div class="rps__hands">
+              <div class="rps__hand" id="rpsYouHand" data-hand="none">
+                <span class="rps__who">You</span>
+                <span class="rps__icon" aria-hidden="true"></span>
+              </div>
+              <span class="rps__versus" aria-hidden="true">VS</span>
+              <div class="rps__hand" id="rpsMachineHand" data-hand="none">
+                <span class="rps__who">Machine</span>
+                <span class="rps__icon" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="rps__throws" id="rpsThrows" role="group" aria-label="Choose your throw">
+              <button class="rps__throw" type="button" data-throw="rock" aria-label="Throw rock">
+                <span class="rps__icon" aria-hidden="true"></span>
+                <span class="rps__throw-label">Rock</span>
+              </button>
+              <button class="rps__throw" type="button" data-throw="paper" aria-label="Throw paper">
+                <span class="rps__icon" aria-hidden="true"></span>
+                <span class="rps__throw-label">Paper</span>
+              </button>
+              <button
+                class="rps__throw"
+                type="button"
+                data-throw="scissors"
+                aria-label="Throw scissors"
+              >
+                <span class="rps__icon" aria-hidden="true"></span>
+                <span class="rps__throw-label">Scissors</span>
+              </button>
+            </div>
+
+            <p class="rps__round" id="rpsNote"></p>
+
+            <div class="toolbar">
+              <button class="btn btn--ghost" type="button" id="rpsNewMatch">New Match</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <p class="keys keyboard-only">
+        <span><kbd>R</kbd><kbd>P</kbd><kbd>S</kbd> throw</span>
+        <span><kbd>esc</kbd> settings</span>
+      </p>
+    </main>
+
+    <div id="settings"></div>
+
+    <footer class="ftr">
+      <div class="wrap ftr__inner">
+        <span>© <span data-year>2026</span> Beat The Arcade</span>
+        <span>Match results are saved on this device</span>
+      </div>
+    </footer>
+
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/input.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/settings.js"></script>
+    <script src="js/games/rps.js"></script>
+  </body>
+</html>
