@@ -7,7 +7,7 @@
     <title>Rock Paper Scissors · Beat The Arcade</title>
     <meta
       name="description"
-      content="Rock paper scissors against a machine that never seems to lose — or win. Best of three, keyboard or touch."
+      content="Rock paper scissors against a machine that reads your first three throws. Endless rounds, keyboard or touch."
     />
     <link
       rel="icon"
@@ -58,7 +58,7 @@
     <main id="main" class="site__main wrap">
       <div class="page-head">
         <div>
-          <span class="eyebrow">Game 04 · Best of three</span>
+          <span class="eyebrow">Game 04 · Endless rounds</span>
           <h1 class="display">Rock Paper Scissors</h1>
         </div>
       </div>
@@ -69,7 +69,7 @@
             <div class="hud">
               <div class="hud__cell">
                 <h3>Round</h3>
-                <b id="rpsRound">1/3</b>
+                <b id="rpsRound">1</b>
               </div>
               <div class="hud__cell">
                 <h3>You</h3>
@@ -99,6 +99,8 @@
               </div>
             </div>
 
+            <p class="rps__prompt" id="rpsPrompt" aria-live="polite"></p>
+
             <div class="rps__throws" id="rpsThrows" role="group" aria-label="Choose your throw">
               <button class="rps__throw" type="button" data-throw="rock" aria-label="Throw rock">
                 <span class="rps__icon" aria-hidden="true"></span>
@@ -122,7 +124,7 @@
             <p class="rps__round" id="rpsNote"></p>
 
             <div class="toolbar">
-              <button class="btn btn--ghost" type="button" id="rpsNewMatch">New Match</button>
+              <button class="btn btn--ghost" type="button" id="rpsReset">Reset Game</button>
             </div>
           </div>
         </div>
@@ -139,7 +141,7 @@
     <footer class="ftr">
       <div class="wrap ftr__inner">
         <span>© <span data-year>2026</span> Beat The Arcade</span>
-        <span>Match results are saved on this device</span>
+        <span>Your record is saved on this device</span>
       </div>
     </footer>
 

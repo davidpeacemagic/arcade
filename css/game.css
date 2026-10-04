@@ -498,6 +498,17 @@
   color: var(--ink-mute);
 }
 
+/* Says what the buttons below do — including, once a round has settled, that
+   picking another throw is how you play on. */
+.rps__prompt {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
 .rps__throws {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
