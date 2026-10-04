@@ -111,12 +111,13 @@
   /* ---------------------------------------------------------------------- */
 
   var ICONS = {
-    // faceted boulder
+    // a lumpy boulder with a chipped dent along the bottom edge — deliberately
+    // irregular so it reads as rock rather than as a cut gem
     rock:
       '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.3" ' +
       'stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">' +
-      '<path d="M16 5.5l8.5 5.9v9.2L16 26.5l-8.5-5.9v-9.2z"/>' +
-      '<path d="M9.6 15.4L16 12l6.4 3.4"/>' +
+      '<path d="M11.4 6l6.8 1.8 5.4 4.4 1.6 6.2-2.6 5.4-5.6 1.8-2.6-3-4.2 3.2-4.8-3.8-.8-6.4 2.6-6z"/>' +
+      '<path d="M11.4 6L8.2 13.6"/>' +
       "</svg>",
     // sheet with a turned corner
     paper:
