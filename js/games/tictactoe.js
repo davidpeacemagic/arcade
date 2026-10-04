@@ -25,6 +25,27 @@
     [2, 4, 6]
   ];
 
+  // When the CPU takes a round's opening move it always claims the centre and
+  // then answers from this fixed table: the key is the cell the human just
+  // played, the value is the cell the CPU replies with. There is no entry for
+  // cell 4 because the CPU is already sitting on it.
+  //
+  // This mirrors the scripted computer in the sibling tictactoe project. The
+  // difficulty setting only governs the fallback, which is reached when the
+  // scripted cell has already been taken.
+  var OPENING_REPLIES = {
+    0: 1,
+    1: 0,
+    2: 5,
+    3: 6,
+    5: 2,
+    6: 3,
+    7: 8,
+    8: 7
+  };
+
+  var CENTRE = 4;
+
   var SCHEMA = [
     {
       key: "mode",
@@ -41,7 +62,7 @@
       key: "symbol",
       label: "Your Mark",
       type: "segmented",
-      default: "X",
+      default: "O",
       hint: "X always moves first unless you choose a different starting player.",
       visible: function (v) {
         return v.mode === "1p";
@@ -55,7 +76,7 @@
       key: "first1p",
       label: "Starting Player",
       type: "segmented",
-      default: "you",
+      default: "cpu",
       visible: function (v) {
         return v.mode === "1p";
       },
@@ -88,7 +109,7 @@
       visible: function (v) {
         return v.mode === "1p";
       },
-      hint: "Hard uses minimax — it cannot be beaten, only drawn.",
+      hint: "Hard plays perfectly when you move first. Let it open and it follows one fixed pattern.",
       options: [
         { value: "easy", label: "Easy" },
         { value: "medium", label: "Medium" },
@@ -174,7 +195,13 @@
     matchScore: { X: 0, O: 0, draws: 0 },
     locked: true,
     starter: "X",
-    matchOver: false
+    matchOver: false,
+    // True when the CPU took this round's opening move, so it plays the scripted
+    // OPENING_REPLIES rather than the difficulty's own logic.
+    cpuOpened: false,
+    // The cell the human just played, which keys OPENING_REPLIES. It stays -1
+    // until they move, which is what makes the CPU's first move the centre.
+    lastHumanMove: -1
   };
 
   var aiToken = 0;
@@ -338,6 +365,28 @@
   /* cpu                                                                    */
   /* ---------------------------------------------------------------------- */
 
+  /**
+   * The scripted reply, used whenever the CPU took the round's opening move:
+   * claim the centre first, then answer the human's last cell from
+   * OPENING_REPLIES. An immediate win always outranks the script.
+   *
+   * Returns -1 for "no scripted move available", so the caller can fall back to
+   * the difficulty logic. That happens when the scripted cell is already taken —
+   * the CPU must never overwrite a mark.
+   */
+  function scriptedReply(board, mark) {
+    var win = findWinning(board, mark);
+    if (win > -1) return win;
+
+    if (state.lastHumanMove === -1) {
+      return board[CENTRE] === null ? CENTRE : -1;
+    }
+
+    var reply = OPENING_REPLIES[state.lastHumanMove];
+    if (reply === undefined) return -1;
+    return board[reply] === null ? reply : -1;
+  }
+
   function cpuChoose() {
     var board = state.board;
     var mark = state.cpuMark;
@@ -345,6 +394,14 @@
     var free = emptyCells(board);
 
     if (!free.length) return -1;
+
+    // Scripted opening: the CPU takes the centre, then answers each human move
+    // from OPENING_REPLIES. Only when that yields nothing does the chosen
+    // difficulty get a say.
+    if (state.cpuOpened) {
+      var scripted = scriptedReply(board, mark);
+      if (scripted > -1) return scripted;
+    }
 
     var difficulty = values().difficulty;
     if (difficulty === "easy") {
@@ -468,6 +525,10 @@
     state.starter = starterForRound(state.round);
     state.turn = state.starter;
     state.locked = false;
+    state.lastHumanMove = -1;
+    // The CPU plays its scripted opening whenever it takes a round's first move,
+    // on every difficulty. Rounds the human opens are unaffected.
+    state.cpuOpened = isCpuTurn();
 
     renderBoard(null, -1);
     renderHud();
@@ -496,6 +557,9 @@
 
   function play(index) {
     state.board[index] = state.turn;
+    if (state.turn === state.humanMark) {
+      state.lastHumanMove = index;
+    }
     audio.play(state.turn === "X" ? "place" : "oplace");
 
     var win = winnerOf(state.board);

@@ -297,9 +297,28 @@
   text-shadow: 0 0 10px rgba(0, 240, 255, 0.6), 0 0 30px rgba(0, 240, 255, 0.24);
 }
 
+/* Orbitron's O is a rounded square at weight 900, so it reads as a box rather
+   than a nought. The glyph stays in the DOM (it is what the screen reader name
+   is built from) but is painted transparent, and a true ring is drawn in its
+   place. Sizes are in em so the ring tracks the same clamp() as the X. */
 .ttt__cell[data-mark="O"] {
-  color: var(--magenta);
-  text-shadow: 0 0 10px rgba(255, 43, 214, 0.6), 0 0 30px rgba(255, 43, 214, 0.24);
+  color: transparent;
+  text-shadow: none;
+}
+
+.ttt__cell[data-mark="O"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.74em;
+  height: 0.74em;
+  border: 0.145em solid var(--magenta);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(255, 43, 214, 0.6), 0 0 30px rgba(255, 43, 214, 0.24),
+    inset 0 0 10px rgba(255, 43, 214, 0.35);
 }
 
 .ttt__cell.is-win {
