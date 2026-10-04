@@ -383,12 +383,6 @@ h3 {
   letter-spacing: 0;
 }
 
-.btn--lg {
-  min-height: 52px;
-  padding: 0.8em 1.8em;
-  font-size: 0.95rem;
-}
-
 /* Applied to the "New Round"/"New Match" control once play has stopped: it is
    the only way forward, so it is lit up until the player uses it. */
 .btn--invite {

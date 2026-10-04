@@ -149,10 +149,6 @@
   text-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
 }
 
-.hud__cell--right {
-  text-align: right;
-}
-
 .lives {
   display: flex;
   justify-content: center;
@@ -251,14 +247,6 @@
 /* ==========================================================================
    tic tac toe
    ========================================================================== */
-
-.ttt {
-  display: grid;
-  gap: 0.9rem;
-  max-width: 460px;
-  margin-inline: auto;
-  width: 100%;
-}
 
 .ttt__status {
   min-height: 1.9em;
@@ -449,12 +437,34 @@
   color: var(--ink-mute);
 }
 
+/* Each throw carries its own colour, so the symbol reads at a glance without
+   relying on the label underneath. Lime stays reserved for "this hand took the
+   round", so it is never one of the throw colours. Defined before the .is-win
+   rules so a win ring still overrides the icon colour. */
+.rps__hand[data-hand="rock"],
+.rps__throw[data-throw="rock"] {
+  --throw: #ffb02b;
+  --throw-rgb: 255, 176, 43;
+}
+
+.rps__hand[data-hand="paper"],
+.rps__throw[data-throw="paper"] {
+  --throw: #00f0ff;
+  --throw-rgb: 0, 240, 255;
+}
+
+.rps__hand[data-hand="scissors"],
+.rps__throw[data-throw="scissors"] {
+  --throw: #ff2bd6;
+  --throw-rgb: 255, 43, 214;
+}
+
 .rps__icon {
   display: grid;
   place-items: center;
   width: clamp(58px, 16vw, 92px);
   height: clamp(58px, 16vw, 92px);
-  color: var(--accent);
+  color: var(--throw, var(--accent));
 }
 
 .rps__icon svg {
@@ -526,9 +536,13 @@
   gap: 0.4rem;
   min-height: clamp(78px, 20vw, 96px);
   padding: 0.5rem 0.25rem;
-  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  border: 1px solid rgba(var(--throw-rgb, var(--accent-rgb)), 0.4);
   border-radius: var(--r-sm);
-  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.14), rgba(var(--accent-rgb), 0.03));
+  background: linear-gradient(
+    180deg,
+    rgba(var(--throw-rgb, var(--accent-rgb)), 0.16),
+    rgba(var(--throw-rgb, var(--accent-rgb)), 0.03)
+  );
   color: var(--ink);
   font: inherit;
   cursor: pointer;
@@ -538,8 +552,8 @@
 
 .rps__throw:hover:not(:disabled),
 .rps__throw:focus-visible:not(:disabled) {
-  border-color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.2);
+  border-color: var(--throw, var(--accent));
+  background: rgba(var(--throw-rgb, var(--accent-rgb)), 0.2);
 }
 
 .rps__throw:active:not(:disabled) {

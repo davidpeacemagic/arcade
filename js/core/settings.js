@@ -483,12 +483,19 @@
     };
   }
 
+  /**
+   * Escape for double-quoted attributes and text nodes. Note this is NOT a
+   * general-purpose escaper for inline script or single-quoted contexts — the
+   * apostrophe is handled so it stays safe if it is ever reused, but anything
+   * more exotic still needs its own treatment.
+   */
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
   Arcade.settings = {

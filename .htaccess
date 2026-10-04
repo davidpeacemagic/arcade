@@ -66,3 +66,16 @@ DirectoryIndex index.html
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
+
+# --- keep the repo's own files off the web ---------------------------------
+# README.md documents how the games work, including the Rock Paper Scissors
+# reset script, so it is not something to serve — neither are editor and OS
+# leftovers. Anything with a leading dot is covered too (.htaccess itself is
+# already hidden by Apache's default config; this is belt and braces).
+# Guarded on mod_authz_core so an Apache 2.2 host cannot 500 on `Require`;
+# on such a host this block is simply skipped.
+<IfModule mod_authz_core.c>
+  <FilesMatch "(^\.|\.(md|markdown|txt|json|ya?ml|lock|swp|orig|bak)$)">
+    Require all denied
+  </FilesMatch>
+</IfModule>
