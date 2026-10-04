@@ -11,18 +11,17 @@
    No dice are rolled for those — the machine's throw is derived from yours at
    reveal time.
 
-     first reset of the session, hand 1   the thing your throw beats  -> you win
-     first reset of the session, hand 2   the thing your throw beats  -> you win
-     first reset of the session, hand 3   the thing that beats yours  -> you lose
-     hand 4 onward                        genuine random again
+     first reset after the page loads, hand 1   the thing your throw beats  -> you win
+     first reset after the page loads, hand 2   the thing your throw beats  -> you win
+     first reset after the page loads, hand 3   the thing that beats yours  -> you lose
+     hand 4 onward                              genuine random again
 
-   Every later reset in that session is honest, so the 2–1 opening cannot be
+   Every later reset on that page load is honest, so the 2–1 opening cannot be
    reproduced on demand — press reset twice and you will not see it twice. The
-   flag is session-scoped (one hook per tab, surviving reloads), with an
-   in-memory fallback when storage is unavailable. The banner text is computed
-   from the two throws that actually landed (outcomeOf), not asserted from the
-   script, so if the squeezing ever stops working the screen says so rather than
-   lying about it.
+   flag lives in memory only, so reloading the page re-arms it. The banner text
+   is computed from the two throws that actually landed (outcomeOf), not
+   asserted from the script, so if the squeezing ever stops working the screen
+   says so rather than lying about it.
    ========================================================================== */
 
 (function (Arcade) {
@@ -46,27 +45,10 @@
   var script = [];
 
   var SESSION_KEY = "arcade.v1.rps.hooked";
+  // Deliberately in memory only: the hook is armed by the first Reset press
+  // after the page loads, and a reload starts a clean slate — so refreshing
+  // gives you the 2–1 opening back on the next press.
   var hookedThisLoad = false;
-
-  /** True once the reset script has already fired in this browser session. */
-  function alreadyHooked() {
-    if (hookedThisLoad) return true;
-    try {
-      return window.sessionStorage.getItem(SESSION_KEY) === "1";
-    } catch (err) {
-      return false;
-    }
-  }
-
-  /** Remember the hook so no later reset in this session repeats it. */
-  function markHooked() {
-    hookedThisLoad = true;
-    try {
-      window.sessionStorage.setItem(SESSION_KEY, "1");
-    } catch (err) {
-      /* private mode — the in-memory flag still covers this page load */
-    }
-  }
 
   // rock beats scissors, paper beats rock, scissors beats paper
   var BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };
@@ -308,12 +290,13 @@
 
   /**
    * Clear the table. `fromResetPress` is true only for the Reset Game button;
-   * boot passes false. The script is armed by the first reset of a browser
-   * session and never again, so a second press gives an honest game.
+   * boot passes false. The script is armed by the first reset *on this page
+   * load* and never again until the page is reloaded, so a second press gives
+   * an honest game and refreshing re-arms it.
    */
   function resetGame(fromResetPress) {
-    var arm = !!fromResetPress && !alreadyHooked();
-    if (arm) markHooked();
+    var arm = !!fromResetPress && !hookedThisLoad;
+    if (arm) hookedThisLoad = true;
     script = arm ? RESET_SCRIPT.slice() : [];
     state.score = { wins: 0, losses: 0, draws: 0 };
     state.round = 1;
@@ -420,6 +403,14 @@
   /* ---------------------------------------------------------------------- */
   /* boot                                                                   */
   /* ---------------------------------------------------------------------- */
+
+  // An earlier build kept the hook flag in sessionStorage; nothing reads it
+  // now, so clear it rather than leave a stale value lying around.
+  try {
+    window.sessionStorage.removeItem(SESSION_KEY);
+  } catch (err) {
+    /* no sessionStorage — nothing to clean */
+  }
 
   Arcade.ui.init({ settings: panel });
   resetGame(false);

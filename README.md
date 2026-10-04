@@ -32,6 +32,29 @@ form 301-ing to it) and needs `AllowOverride FileInfo` or `All` to take effect.
 Other hosts ignore the file and simply serve the `.html` URLs; on
 `python3 -m http.server` nothing changes at all.
 
+### Caching (read this before wondering why a change did not appear)
+
+The CDN in front of the site sends `Cache-Control: public, max-age=604800` for
+static files — seven days — and it **overrides** the `no-cache` header set in
+`.htaccess` (verified: `/css/game.css` still answers with `max-age=604800` in
+production). With no build step and no hashed filenames, that means:
+
+- **Bump the `?v=` tag on the asset URLs whenever you change a stylesheet or
+  script.** The tag is the date of the change, with a `-2`, `-3` … suffix if you
+  change something twice in a day (`?v=20261004-2`). Bump every reference so one
+  version covers the whole site. This is mandatory, not belt-and-braces: the
+  changed URL is the only thing that reliably gets a browser past a copy it
+  already holds. A stale stylesheet shows up as a page with new HTML and new
+  JavaScript but old styling — the RPS hand panels losing their grid, inline
+  SVGs falling back to their default 150px size.
+- **HTML is cached for seven days too**, so a returning visitor can keep an old
+  page (and therefore old `?v=` references) for up to a week. Purge the CDN
+  cache in the hosting panel after a deploy, or shorten the TTL for
+  `html`/`css`/`js` there. Failing that, a hard refresh clears it for one
+  device.
+- The header block stays in `.htaccess` because it is harmless and correct on a
+  host that does not override it.
+
 ## Files
 
 ```
