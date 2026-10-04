@@ -289,16 +289,6 @@
   filter: drop-shadow(0 0 6px rgba(var(--card-rgb), 0.7));
 }
 
-.card__no {
-  position: absolute;
-  top: 0.9rem;
-  right: 1rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  color: var(--ink-mute);
-}
-
 .card__name {
   font-size: clamp(1.15rem, 2.2vw, 1.45rem);
   color: var(--ink);
