@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Beat The Arcade — js/games/tetris.js
-   Tetris: SRS rotation with wall kicks, seven-bag randomiser, hold, ghost
+   Beat The Arcade — js/games/blocks.js
+   Blocks: SRS rotation with wall kicks, seven-bag randomiser, hold, ghost
    piece, configurable next queue, lock delay and DAS/ARR.
 
    Logical play field is 10 x 20 cells at 30 units per cell (300 x 600).
@@ -20,7 +20,7 @@
   var input = Arcade.input;
   var ui = Arcade.ui;
 
-  var GAME_ID = "tetris";
+  var GAME_ID = "blocks";
 
   /* ---------------------------------------------------------------------- */
   /* pieces                                                                 */
@@ -422,19 +422,19 @@
   /* dom                                                                    */
   /* ---------------------------------------------------------------------- */
 
-  var canvas = document.getElementById("tetCanvas");
-  var holdCanvas = document.getElementById("tetHold");
-  var nextCanvas = document.getElementById("tetNext");
-  var scoreEl = document.getElementById("tetScore");
-  var levelEl = document.getElementById("tetLevel");
-  var linesEl = document.getElementById("tetLines");
-  var bestEl = document.getElementById("tetBest");
-  var padEl = document.getElementById("tetPad");
+  var canvas = document.getElementById("blocksCanvas");
+  var holdCanvas = document.getElementById("blocksHold");
+  var nextCanvas = document.getElementById("blocksNext");
+  var scoreEl = document.getElementById("blocksScore");
+  var levelEl = document.getElementById("blocksLevel");
+  var linesEl = document.getElementById("blocksLines");
+  var bestEl = document.getElementById("blocksBest");
+  var padEl = document.getElementById("blocksPad");
   var screenEl = document.querySelector(".bezel__screen");
 
   var panel = Arcade.settings.mount(document.getElementById("settings"), {
     gameId: GAME_ID,
-    title: "Tetris",
+    title: "Blocks",
     schema: SCHEMA,
     onChange: function (key) {
       if (key === "next" || key === "hold") paintSide();
@@ -686,7 +686,7 @@
 
     if (rows.length) {
       state.pendingClear = { rows: rows, t: 0.2 };
-      audio.play(rows.length === 4 ? "tetrisClear" : "lineClear");
+      audio.play(rows.length === 4 ? "quadClear" : "lineClear");
       if (rows.length === 4 && values().effects) state.shake = 8;
     } else {
       spawnNext();

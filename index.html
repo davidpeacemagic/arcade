@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
-    <title>Beat The Arcade — Tic Tac Toe · Space Invaders · Tetris</title>
+    <title>Beat The Arcade — Tic Tac Toe · Invasion · Blocks</title>
     <meta
       name="description"
-      content="Three arcade classics rebuilt for the browser: Tic Tac Toe, Space Invaders and Tetris. Neon, noise and one more go."
+      content="Three arcade classics rebuilt for the browser: Tic Tac Toe, Invasion and Blocks. Neon, noise and one more go."
     />
     <link
       rel="icon"
@@ -61,18 +61,18 @@
       <div class="ticker" aria-hidden="true">
         <div class="ticker__track">
           <span>▚ Tic Tac Toe <b>1P / 2P</b></span>
-          <span>▚ Space Invaders <b>Endless waves</b></span>
-          <span>▚ Tetris <b>7-bag · SRS · Hold</b></span>
+          <span>▚ Invasion <b>Endless waves</b></span>
+          <span>▚ Blocks <b>7-bag · SRS · Hold</b></span>
           <span>▚ High scores saved on this device</span>
           <span>▚ Touch controls enabled</span>
           <span>▚ Tic Tac Toe <b>1P / 2P</b></span>
-          <span>▚ Space Invaders <b>Endless waves</b></span>
-          <span>▚ Tetris <b>7-bag · SRS · Hold</b></span>
+          <span>▚ Invasion <b>Endless waves</b></span>
+          <span>▚ Blocks <b>7-bag · SRS · Hold</b></span>
           <span>▚ High scores saved on this device</span>
           <span>▚ Touch controls enabled</span>
           <span>▚ Tic Tac Toe <b>1P / 2P</b></span>
-          <span>▚ Space Invaders <b>Endless waves</b></span>
-          <span>▚ Tetris <b>7-bag · SRS · Hold</b></span>
+          <span>▚ Invasion <b>Endless waves</b></span>
+          <span>▚ Blocks <b>7-bag · SRS · Hold</b></span>
           <span>▚ High scores saved on this device</span>
           <span>▚ Touch controls enabled</span>
         </div>
@@ -82,10 +82,10 @@
         <li class="card ticks" style="--card-rgb: 0, 240, 255">
           <span class="card__no">01</span>
           <div class="card__art" aria-hidden="true">
-            <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
-              <path d="M24 6v60M48 6v60M6 24h60M6 48h60" />
-              <path d="M10 10l10 10M20 10L10 20" />
-              <circle cx="54" cy="54" r="7" />
+            <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M26 6v60M46 6v60M6 26h60M6 46h60" />
+              <path d="M11 11l10 10M21 11L11 21" />
+              <circle cx="56" cy="56" r="6" />
             </svg>
           </div>
           <h2 class="card__name">Tic Tac Toe</h2>
@@ -106,28 +106,31 @@
           <span class="card__no">02</span>
           <div class="card__art" aria-hidden="true">
             <svg viewBox="0 0 72 72" fill="currentColor">
-              <rect x="30" y="6" width="12" height="6" />
-              <rect x="18" y="12" width="36" height="12" />
-              <rect x="12" y="24" width="48" height="12" />
-              <rect x="6" y="36" width="12" height="6" />
-              <rect x="54" y="36" width="12" height="6" />
-              <rect x="12" y="42" width="12" height="6" />
-              <rect x="48" y="42" width="12" height="6" />
-              <rect x="24" y="48" width="6" height="6" />
-              <rect x="42" y="48" width="6" height="6" />
+              <rect x="10" y="1" width="52" height="7" rx="1.5" />
+              <rect x="1" y="10" width="70" height="7" rx="1.5" />
+              <rect x="1" y="19" width="7" height="7" rx="1.5" />
+              <rect x="19" y="19" width="34" height="7" rx="1.5" />
+              <rect x="64" y="19" width="7" height="7" rx="1.5" />
+              <rect x="1" y="28" width="70" height="7" rx="1.5" />
+              <rect x="1" y="37" width="70" height="7" rx="1.5" />
+              <rect x="10" y="46" width="52" height="7" rx="1.5" />
+              <rect x="19" y="55" width="16" height="7" rx="1.5" />
+              <rect x="46" y="55" width="16" height="7" rx="1.5" />
+              <rect x="19" y="64" width="16" height="7" rx="1.5" />
+              <rect x="46" y="64" width="16" height="7" rx="1.5" />
             </svg>
           </div>
-          <h2 class="card__name">Space Invaders</h2>
+          <h2 class="card__name">Invasion</h2>
           <p class="card__desc">
-            Waves that speed up as they thin out, destructible bunkers and a bonus saucer
+            Waves that speed up as they thin out, destructible bunkers and a bonus drone
             worth chasing.
           </p>
           <div class="card__foot">
-            <span class="card__hi">High score <b data-best="invaders">—</b></span>
+            <span class="card__hi">High score <b data-best="invasion">—</b></span>
             <span class="btn">Play</span>
           </div>
-          <a class="card__link" href="invaders.html">
-            <span class="visually-hidden">Play Space Invaders</span>
+          <a class="card__link" href="invasion.html">
+            <span class="visually-hidden">Play Invasion</span>
           </a>
         </li>
 
@@ -135,27 +138,34 @@
           <span class="card__no">03</span>
           <div class="card__art" aria-hidden="true">
             <svg viewBox="0 0 72 72" fill="currentColor">
-              <rect x="6" y="42" width="14" height="14" rx="2" />
-              <rect x="20" y="42" width="14" height="14" rx="2" />
-              <rect x="34" y="42" width="14" height="14" rx="2" />
-              <rect x="34" y="28" width="14" height="14" rx="2" />
-              <rect x="48" y="6" width="14" height="14" rx="2" />
-              <rect x="48" y="20" width="14" height="14" rx="2" />
-              <rect x="34" y="6" width="14" height="14" rx="2" />
-              <rect x="6" y="6" width="14" height="14" rx="2" opacity=".35" />
+              <!-- T-piece -->
+              <rect x="19" y="1" width="10" height="10" rx="2" />
+              <rect x="7" y="13" width="10" height="10" rx="2" />
+              <rect x="19" y="13" width="10" height="10" rx="2" />
+              <rect x="31" y="13" width="10" height="10" rx="2" />
+              <!-- I-piece, standing upright -->
+              <rect x="55" y="25" width="10" height="10" rx="2" opacity=".8" />
+              <rect x="55" y="37" width="10" height="10" rx="2" opacity=".8" />
+              <rect x="55" y="49" width="10" height="10" rx="2" opacity=".8" />
+              <rect x="55" y="61" width="10" height="10" rx="2" opacity=".8" />
+              <!-- O-piece -->
+              <rect x="7" y="49" width="10" height="10" rx="2" opacity=".6" />
+              <rect x="19" y="49" width="10" height="10" rx="2" opacity=".6" />
+              <rect x="7" y="61" width="10" height="10" rx="2" opacity=".6" />
+              <rect x="19" y="61" width="10" height="10" rx="2" opacity=".6" />
             </svg>
           </div>
-          <h2 class="card__name">Tetris</h2>
+          <h2 class="card__name">Blocks</h2>
           <p class="card__desc">
             Seven-bag randomiser, SRS wall kicks, ghost piece and hold. Levels one through
             ten, then good luck.
           </p>
           <div class="card__foot">
-            <span class="card__hi">High score <b data-best="tetris">—</b></span>
+            <span class="card__hi">High score <b data-best="blocks">—</b></span>
             <span class="btn">Play</span>
           </div>
-          <a class="card__link" href="tetris.html">
-            <span class="visually-hidden">Play Tetris</span>
+          <a class="card__link" href="blocks.html">
+            <span class="visually-hidden">Play Blocks</span>
           </a>
         </li>
       </ul>

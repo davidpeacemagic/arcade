@@ -212,11 +212,11 @@
       beep({ freq: 440, dur: 0.12, type: "triangle", vol: 0.2, delay: 0.18 });
     },
 
-    /* invaders */
+    /* invasion */
     laser: function () {
       beep({ freq: 1400, to: 380, dur: 0.1, type: "square", vol: 0.16 });
     },
-    invaderStep: function () {
+    alienStep: function () {
       beep({ freq: 150, to: 110, dur: 0.07, type: "square", vol: 0.13 });
     },
     explode: function () {
@@ -226,7 +226,7 @@
     hit: function () {
       noise({ dur: 0.22, vol: 0.3, from: 900, to: 140 });
     },
-    ufo: function () {
+    drone: function () {
       beep({ freq: 900, to: 1500, dur: 0.12, type: "sine", vol: 0.16 });
       beep({ freq: 1500, to: 900, dur: 0.12, type: "sine", vol: 0.16, delay: 0.13 });
     },
@@ -236,7 +236,7 @@
       });
     },
 
-    /* tetris */
+    /* blocks */
     move: function () {
       beep({ freq: 300, dur: 0.025, type: "square", vol: 0.1 });
     },
@@ -260,7 +260,7 @@
       });
       noise({ dur: 0.18, vol: 0.16, from: 3000, to: 600, type: "bandpass", q: 2 });
     },
-    tetrisClear: function () {
+    quadClear: function () {
       [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach(function (f, i) {
         beep({ freq: f, dur: 0.12, type: "square", vol: 0.2, delay: i * 0.07 });
       });

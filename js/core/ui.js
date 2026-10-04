@@ -52,8 +52,8 @@
   function gameTitle(gameId) {
     var map = {
       tictactoe: "Tic Tac Toe",
-      invaders: "Space Invaders",
-      tetris: "Tetris"
+      invasion: "Invasion",
+      blocks: "Blocks"
     };
     return map[gameId] || "Arcade";
   }

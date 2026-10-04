@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Beat The Arcade — js/games/invaders.js
-   Space Invaders: endless accelerating waves, destructible bunkers, a bonus
-   saucer and the classic step-and-descend formation.
+   Beat The Arcade — js/games/invasion.js
+   Invasion: endless accelerating waves, destructible bunkers, a bonus
+   drone and the classic step-and-descend formation.
 
    Logical play area is 480 x 600 units; the canvas is scaled to fit.
    ========================================================================== */
@@ -17,91 +17,99 @@
   var input = Arcade.input;
   var ui = Arcade.ui;
 
-  var GAME_ID = "invaders";
+  var GAME_ID = "invasion";
 
   /* ---------------------------------------------------------------------- */
   /* sprites                                                                */
   /* ---------------------------------------------------------------------- */
 
+  /*
+   * Original sprite artwork, drawn as 1-bit bitmaps.
+   *
+   * These are deliberately NOT the classic 1978 arcade designs: the fleet is a
+   * boxy sentinel, a wedge and a dome-with-ears, each with two frames that
+   * shift the feet by one cell. The player craft is a mid-span delta and the
+   * bonus craft is a hexagonal pod rather than a disc.
+   */
   var SPR = {
-    squidA: [
-      "..1111..",
+    sentinelA: [
       ".111111.",
       "11111111",
-      "11.11.11",
+      "1.1111.1",
       "11111111",
-      "..1..1..",
-      ".1.11.1.",
-      "1.1..1.1"
+      "11111111",
+      ".111111.",
+      "..11.11.",
+      "..11.11."
     ],
-    squidB: [
-      "..1111..",
+    sentinelB: [
       ".111111.",
       "11111111",
-      "11.11.11",
+      "1.1111.1",
       "11111111",
-      "..1..1..",
+      "11111111",
+      ".111111.",
       ".11..11.",
+      ".11..11."
+    ],
+    wedgeA: [
+      "...11...",
+      "..1111..",
+      "..1111..",
+      ".111111.",
+      ".111111.",
+      "11111111",
+      "11111111",
+      "1.1111.1"
+    ],
+    wedgeB: [
+      "..1111..",
+      "..1111..",
+      "..1111..",
+      ".111111.",
+      ".111111.",
+      "11111111",
+      "11111111",
       "11....11"
     ],
-    crabA: [
-      "..1..1..",
-      ".111111.",
-      "11.11.11",
+    domeA: [
+      "1.1111.1",
       "11111111",
-      ".1.11.1.",
-      "1.1..1.1",
-      "1......1",
-      ".1....1."
+      "11111111",
+      ".111111.",
+      ".111111.",
+      "..1111..",
+      "..1111..",
+      ".11..11."
     ],
-    crabB: [
-      "..1..1..",
+    domeB: [
+      "1.1111.1",
+      "11111111",
+      "11111111",
       ".111111.",
-      "11.11.11",
-      "11111111",
-      "1.1..1.1",
-      ".1.11.1.",
-      ".1....1.",
-      "1......1"
-    ],
-    octoA: [
-      "..1111..",
       ".111111.",
-      "11111111",
-      "11.11.11",
-      "11111111",
       "..1111..",
-      ".1....1.",
-      ".1....1."
-    ],
-    octoB: [
       "..1111..",
-      ".111111.",
-      "11111111",
-      "11.11.11",
-      "11111111",
-      "..1111..",
-      "1.1..1.1",
-      "1.1..1.1"
+      "11....11"
     ],
     ship: [
       ".....1.....",
       "....111....",
-      "....111....",
-      ".1111111111",
+      "...11111...",
+      "1.1111111.1",
       "11111111111",
-      "11111111111",
-      "111.111.111",
-      "11.......11"
+      ".111111111.",
+      "..1111111..",
+      "...1...1..."
     ],
-    ufo: [
-      "...111111...",
+    drone: [
+      "....1111....",
       "..11111111..",
       ".1111111111.",
+      "1111.11.1111",
       "111111111111",
-      "11.11..11.11",
-      ".1..1..1..1.",
-      "............"
+      ".1111111111.",
+      "...11..11..."
     ]
   };
 
@@ -110,8 +118,8 @@
   var INV_H = 8 * PX; // 24
   var SHIP_W = 11 * PX; // 33
   var SHIP_H = 8 * PX; // 24
-  var UFO_W = 12 * PX; // 36
-  var UFO_H = 7 * PX; // 21
+  var DRONE_W = 12 * PX; // 36
+  var DRONE_H = 7 * PX; // 21
 
   var COLORS = {
     bg: "#04050b",
@@ -119,7 +127,7 @@
     bullet: "#e9edff",
     enemyBullet: "#ff2bd6",
     barrier: "#8b5cff",
-    ufo: "#ff3b5c",
+    drone: "#ff3b5c",
     rows: ["#ff2bd6", "#00f0ff", "#00f0ff", "#ffb020", "#ffb020", "#ffb020"]
   };
 
@@ -254,8 +262,8 @@
       offLabel: "No cover"
     },
     {
-      key: "ufo",
-      label: "Bonus Saucer",
+      key: "drone",
+      label: "Bonus Drone",
       type: "toggle",
       group: "Arena",
       default: true,
@@ -282,17 +290,17 @@
     }
   ];
 
-  var canvas = document.getElementById("invCanvas");
-  var scoreEl = document.getElementById("invScore");
-  var hiEl = document.getElementById("invHi");
-  var waveEl = document.getElementById("invWave");
-  var livesEl = document.getElementById("invLives");
-  var padEl = document.getElementById("invPad");
+  var canvas = document.getElementById("invasionCanvas");
+  var scoreEl = document.getElementById("invasionScore");
+  var hiEl = document.getElementById("invasionHi");
+  var waveEl = document.getElementById("invasionWave");
+  var livesEl = document.getElementById("invasionLives");
+  var padEl = document.getElementById("invasionPad");
   var screenEl = document.querySelector(".bezel__screen");
 
   var panel = Arcade.settings.mount(document.getElementById("settings"), {
     gameId: GAME_ID,
-    title: "Space Invaders",
+    title: "Invasion",
     schema: SCHEMA,
     onChange: function (key) {
       if (key === "controls") {
@@ -321,7 +329,7 @@
   var playerBullets = [];
   var enemyBullets = [];
   var particles = [];
-  var saucer = null;
+  var drone = null;
   var ship = { x: W / 2, y: H - 58, alive: true, invulnerable: 0 };
   var touch = { left: false, right: false, fire: false };
 
@@ -351,7 +359,7 @@
 
     fighters = [];
     for (var r = 0; r < rows; r++) {
-      var type = r === 0 ? "squid" : r < 3 ? "crab" : "octo";
+      var type = r === 0 ? "sentinel" : r < 3 ? "wedge" : "dome";
       for (var c = 0; c < cols; c++) {
         fighters.push({ row: r, col: c, type: type, alive: true });
       }
@@ -364,7 +372,7 @@
     state.frame = 0;
     state.banner = 1.5;
     state.enemyFireTimer = rand(cfg.fireMin, cfg.fireMax) / 1000;
-    state.saucerTimer = rand(14, 22);
+    state.droneTimer = rand(14, 22);
 
     buildBarriers();
     updateStepInterval();
@@ -406,7 +414,7 @@
       frame: 0,
       banner: 1.5,
       enemyFireTimer: 1,
-      saucerTimer: 18,
+      droneTimer: 18,
       playerCooldown: 0,
       respawn: 0,
       shake: 0,
@@ -416,7 +424,7 @@
     playerBullets = [];
     enemyBullets = [];
     particles = [];
-    saucer = null;
+    drone = null;
     ship = { x: W / 2, y: H - 58, alive: true, invulnerable: 1.2 };
 
     buildWave(false);
@@ -554,7 +562,7 @@
     }
 
     moveBullets(dt);
-    updateSaucer(dt);
+    updateDrone(dt);
     collide();
     enemyFire(dt);
   }
@@ -584,7 +592,7 @@
     }
 
     state.frame = state.frame ? 0 : 1;
-    audio.play("invaderStep");
+    audio.play("alienStep");
     updateStepInterval();
 
     // the fleet crashing into cover chews it up
@@ -637,31 +645,31 @@
     }
   }
 
-  function updateSaucer(dt) {
-    if (!values().ufo) {
-      saucer = null;
+  function updateDrone(dt) {
+    if (!values().drone) {
+      drone = null;
       return;
     }
 
-    if (!saucer) {
-      state.saucerTimer -= dt;
-      if (state.saucerTimer <= 0 && aliveFighters() > 2) {
+    if (!drone) {
+      state.droneTimer -= dt;
+      if (state.droneTimer <= 0 && aliveFighters() > 2) {
         var fromLeft = Math.random() < 0.5;
-        saucer = {
-          x: fromLeft ? -UFO_W : W,
+        drone = {
+          x: fromLeft ? -DRONE_W : W,
           y: 40,
-          w: UFO_W,
-          h: UFO_H,
+          w: DRONE_W,
+          h: DRONE_H,
           vx: (fromLeft ? 1 : -1) * 95
         };
-        state.saucerTimer = rand(16, 26);
-        audio.play("ufo");
+        state.droneTimer = rand(16, 26);
+        audio.play("drone");
       }
       return;
     }
 
-    saucer.x += saucer.vx * dt;
-    if (saucer.x > W + UFO_W || saucer.x < -UFO_W * 2) saucer = null;
+    drone.x += drone.vx * dt;
+    if (drone.x > W + DRONE_W || drone.x < -DRONE_W * 2) drone = null;
   }
 
   function enemyFire(dt) {
@@ -696,18 +704,18 @@
     var i;
     var j;
 
-    // player bullets vs saucer
-    if (saucer) {
+    // player bullets vs the bonus drone
+    if (drone) {
       for (i = playerBullets.length - 1; i >= 0; i--) {
-        if (overlap(playerBullets[i], saucer)) {
+        if (overlap(playerBullets[i], drone)) {
           playerBullets.splice(i, 1);
           var bonus = [50, 100, 150, 300][Math.floor(Math.random() * 4)];
           addScore(bonus);
-          burst(saucer.x + saucer.w / 2, saucer.y + saucer.h / 2, COLORS.ufo, 22, 190);
+          burst(drone.x + drone.w / 2, drone.y + drone.h / 2, COLORS.drone, 22, 190);
           audio.play("explode");
           doShake(7);
-          floatScore(saucer.x + saucer.w / 2, saucer.y, bonus);
-          saucer = null;
+          floatScore(drone.x + drone.w / 2, drone.y, bonus);
+          drone = null;
           break;
         }
       }
@@ -964,7 +972,7 @@
     drawStars(ctx);
     drawBarriers(ctx);
     drawFighters(ctx);
-    drawSaucer(ctx);
+    drawDrone(ctx);
     drawShip(ctx);
     drawBullets(ctx);
     drawParticles(ctx);
@@ -1001,26 +1009,26 @@
       if (!f.alive) return;
       var base = f.type;
       var sprite =
-        base === "squid"
+        base === "sentinel"
           ? frames
-            ? SPR.squidB
-            : SPR.squidA
-          : base === "crab"
+            ? SPR.sentinelB
+            : SPR.sentinelA
+          : base === "wedge"
           ? frames
-            ? SPR.crabB
-            : SPR.crabA
+            ? SPR.wedgeB
+            : SPR.wedgeA
           : frames
-          ? SPR.octoB
-          : SPR.octoA;
+          ? SPR.domeB
+          : SPR.domeA;
 
       var color = COLORS.rows[Math.min(f.row, COLORS.rows.length - 1)];
       Arcade.canvas.sprite(ctx, sprite, fighterX(f), fighterY(f), PX, color);
     });
   }
 
-  function drawSaucer(ctx) {
-    if (!saucer) return;
-    Arcade.canvas.sprite(ctx, SPR.ufo, saucer.x, saucer.y, PX, COLORS.ufo);
+  function drawDrone(ctx) {
+    if (!drone) return;
+    Arcade.canvas.sprite(ctx, SPR.drone, drone.x, drone.y, PX, COLORS.drone);
   }
 
   function drawShip(ctx) {
@@ -1068,7 +1076,7 @@
 
   function drawFloats(ctx) {
     ctx.font = "16px 'Share Tech Mono', monospace";
-    ctx.fillStyle = COLORS.ufo;
+    ctx.fillStyle = COLORS.drone;
     ctx.textAlign = "center";
     floats.forEach(function (f) {
       ctx.globalAlpha = Math.max(0, f.life);

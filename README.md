@@ -1,7 +1,7 @@
 # Beat The Arcade
 
-Three arcade classics rebuilt as a plain static site: **Tic Tac Toe**, **Space
-Invaders** and **Tetris**. Neon/CRT styling, working high-score tables and
+Three arcade classics rebuilt as a plain static site: **Tic Tac Toe**, **Invasion**
+and **Blocks**. Neon/CRT styling, working high-score tables and
 per-game settings that persist on the device.
 
 No build step, no package manager, no dependencies except a Google Fonts
@@ -31,8 +31,8 @@ There is no server-side code and no service worker.
 ```
 index.html              homepage — hero, ticker and the three game cards
 tictactoe.html          game pages: header, HUD, play area, settings host
-invaders.html
-tetris.html
+invasion.html
+blocks.html
 
 css/theme.css           design tokens, reset, CRT + glitch effects, keyframes
 css/layout.css          page shell, header, hero, cards, footer
@@ -47,8 +47,8 @@ js/core/ui.js           header wiring, hi-score tables, initials entry, overlays
 js/core/settings.js     declarative settings schema → slide-in panel
 
 js/games/tictactoe.js   DOM board, minimax CPU, best-of-N matches
-js/games/invaders.js    waves, bunkers, saucer, particles
-js/games/tetris.js      SRS, seven-bag, hold, ghost, next queue
+js/games/invasion.js    waves, bunkers, drone, particles
+js/games/blocks.js      SRS, seven-bag, hold, ghost, next queue
 ```
 
 Each page loads `js/core/*` in dependency order, then its own game file.
@@ -65,7 +65,7 @@ the whole site follows. Each game page also sets its own `--accent` on `<body>`.
   prefix. If storage is unavailable the games keep working for the session.
 - Sound starts muted; the speaker button in the header toggles it and the
   choice is remembered.
-- Touch devices get on-screen pads (and for Tetris, swipe gestures on the play
+- Touch devices get on-screen pads (and for Blocks, swipe gestures on the play
   field). The control scheme can be forced to keyboard or touch in settings.
 - `prefers-reduced-motion` disables the flicker, scanlines, glitch and most
   transitions.

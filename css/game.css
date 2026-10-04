@@ -69,14 +69,14 @@
   padding: clamp(10px, 2vw, 16px);
 }
 
-.screen--invaders {
+.screen--invasion {
   width: min(100%, 480px, 56vh);
   width: min(100%, 480px, 56svh);
   aspect-ratio: 4 / 5;
   margin-inline: auto;
 }
 
-.screen--tetris {
+.screen--blocks {
   width: min(100%, 300px, 31vh);
   width: min(100%, 300px, 31svh);
   aspect-ratio: 1 / 2;
@@ -164,7 +164,7 @@
   width: 12px;
   height: 10px;
   background: var(--accent);
-  clip-path: polygon(50% 0, 100% 55%, 62% 55%, 78% 100%, 22% 100%, 38% 55%, 0 55%);
+  clip-path: polygon(50% 0, 100% 55%, 68% 100%, 32% 100%, 0 55%);
   filter: drop-shadow(0 0 4px rgba(var(--accent-rgb), 0.8));
 }
 
@@ -351,7 +351,7 @@
 }
 
 /* ==========================================================================
-   tetris side panels
+   blocks side panels
    ========================================================================== */
 
 .side {

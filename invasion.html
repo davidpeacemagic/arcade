@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
-    <title>Space Invaders · Beat The Arcade</title>
+    <title>Invasion · Beat The Arcade</title>
     <meta
       name="description"
-      content="Space Invaders with endless waves, destructible bunkers, a bonus saucer and keyboard or touch controls."
+      content="Invasion with endless waves, destructible bunkers, a bonus drone and keyboard or touch controls."
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305060a'/%3E%3Crect x='6' y='12' width='20' height='8' fill='%23ff2bd6'/%3E%3Crect x='12' y='6' width='8' height='4' fill='%23ff2bd6'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305060a'/%3E%3Cg fill='%23ff2bd6'%3E%3Crect x='4' width='23' height='3'/%3E%3Crect y='4' width='31' height='3'/%3E%3Crect y='8' width='3' height='3'/%3E%3Crect x='8' y='8' width='15' height='3'/%3E%3Crect x='28' y='8' width='3' height='3'/%3E%3Crect y='12' width='31' height='3'/%3E%3Crect y='16' width='31' height='3'/%3E%3Crect x='4' y='20' width='23' height='3'/%3E%3Crect x='8' y='24' width='7' height='3'/%3E%3Crect x='20' y='24' width='7' height='3'/%3E%3Crect x='8' y='28' width='7' height='3'/%3E%3Crect x='20' y='28' width='7' height='3'/%3E%3C/g%3E%3C/svg%3E"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,7 +32,7 @@
 
     <header class="hdr">
       <a class="hdr__back" href="index.html">←<span>Arcade</span></a>
-      <span class="hdr__title">Space Invaders</span>
+      <span class="hdr__title">Invasion</span>
       <span class="hdr__spacer"></span>
       <div class="hdr__tools">
         <button
@@ -59,7 +59,7 @@
       <div class="page-head">
         <div>
           <span class="eyebrow">Game 02 · Endless waves</span>
-          <h1 class="display">Space Invaders</h1>
+          <h1 class="display">Invasion</h1>
         </div>
         <button class="btn" type="button" data-tool="settings">⚙ Settings</button>
       </div>
@@ -68,28 +68,28 @@
         <div class="hud">
           <div class="hud__cell">
             <h3>Score</h3>
-            <b id="invScore">0</b>
+            <b id="invasionScore">0</b>
           </div>
           <div class="hud__cell">
             <h3>Hi-Score</h3>
-            <b id="invHi">0</b>
+            <b id="invasionHi">0</b>
           </div>
           <div class="hud__cell">
             <h3>Wave</h3>
-            <b id="invWave">1</b>
+            <b id="invasionWave">1</b>
           </div>
           <div class="hud__cell">
             <h3>Lives</h3>
-            <div class="lives" id="invLives"></div>
+            <div class="lives" id="invasionLives"></div>
           </div>
         </div>
 
-        <div class="bezel__screen screen--invaders">
-          <canvas id="invCanvas" aria-label="Space Invaders play area"></canvas>
+        <div class="bezel__screen screen--invasion">
+          <canvas id="invasionCanvas" aria-label="Invasion play area"></canvas>
         </div>
       </section>
 
-      <div class="pad" id="invPad">
+      <div class="pad" id="invasionPad">
         <button class="pad__btn" type="button" data-control="left" aria-label="Move left">◀</button>
         <button class="pad__btn pad__btn--wide pad__btn--accent" type="button" data-control="fire">
           FIRE
@@ -121,6 +121,6 @@
     <script src="js/core/input.js"></script>
     <script src="js/core/ui.js"></script>
     <script src="js/core/settings.js"></script>
-    <script src="js/games/invaders.js"></script>
+    <script src="js/games/invasion.js"></script>
   </body>
 </html>

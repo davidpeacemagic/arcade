@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
-    <title>Tetris · Beat The Arcade</title>
+    <title>Blocks · Beat The Arcade</title>
     <meta
       name="description"
-      content="Tetris with seven-bag randomiser, SRS wall kicks, ghost piece, hold and a configurable next queue."
+      content="Blocks with seven-bag randomiser, SRS wall kicks, ghost piece, hold and a configurable next queue."
     />
     <link
       rel="icon"
@@ -32,7 +32,7 @@
 
     <header class="hdr">
       <a class="hdr__back" href="index.html">←<span>Arcade</span></a>
-      <span class="hdr__title">Tetris</span>
+      <span class="hdr__title">Blocks</span>
       <span class="hdr__spacer"></span>
       <div class="hdr__tools">
         <button
@@ -59,7 +59,7 @@
       <div class="page-head">
         <div>
           <span class="eyebrow">Game 03 · Seven-bag · SRS</span>
-          <h1 class="display">Tetris</h1>
+          <h1 class="display">Blocks</h1>
         </div>
         <button class="btn" type="button" data-tool="settings">⚙ Settings</button>
       </div>
@@ -69,40 +69,40 @@
           <div class="hud">
             <div class="hud__cell">
               <h3>Score</h3>
-              <b id="tetScore">0</b>
+              <b id="blocksScore">0</b>
             </div>
             <div class="hud__cell">
               <h3>Level</h3>
-              <b id="tetLevel">1</b>
+              <b id="blocksLevel">1</b>
             </div>
             <div class="hud__cell">
               <h3>Lines</h3>
-              <b id="tetLines">0</b>
+              <b id="blocksLines">0</b>
             </div>
           </div>
 
-          <div class="bezel__screen screen--tetris">
-            <canvas id="tetCanvas" aria-label="Tetris play field"></canvas>
+          <div class="bezel__screen screen--blocks">
+            <canvas id="blocksCanvas" aria-label="Blocks play field"></canvas>
           </div>
         </section>
 
         <aside class="side">
           <div class="side__box">
             <h3>Hold</h3>
-            <canvas id="tetHold" width="120" height="96" aria-label="Held piece"></canvas>
+            <canvas id="blocksHold" width="120" height="96" aria-label="Held piece"></canvas>
           </div>
           <div class="side__box">
             <h3>Next</h3>
-            <canvas id="tetNext" width="120" height="200" aria-label="Next pieces"></canvas>
+            <canvas id="blocksNext" width="120" height="200" aria-label="Next pieces"></canvas>
           </div>
           <div class="side__box">
             <h3>Best</h3>
-            <b class="mono" id="tetBest" style="font-size: 1.15rem; color: var(--accent)">0</b>
+            <b class="mono" id="blocksBest" style="font-size: 1.15rem; color: var(--accent)">0</b>
           </div>
         </aside>
       </div>
 
-      <div class="pad--grid pad" id="tetPad" style="max-width: 460px; margin: 12px auto 0">
+      <div class="pad--grid pad" id="blocksPad" style="max-width: 460px; margin: 12px auto 0">
         <button class="pad__btn" type="button" data-control="left" aria-label="Move left">◀</button>
         <button class="pad__btn" type="button" data-control="rotate" aria-label="Rotate clockwise">↻</button>
         <button class="pad__btn" type="button" data-control="right" aria-label="Move right">▶</button>
@@ -139,6 +139,6 @@
     <script src="js/core/input.js"></script>
     <script src="js/core/ui.js"></script>
     <script src="js/core/settings.js"></script>
-    <script src="js/games/tetris.js"></script>
+    <script src="js/games/blocks.js"></script>
   </body>
 </html>
