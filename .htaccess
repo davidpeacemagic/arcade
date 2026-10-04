@@ -21,10 +21,14 @@ Options -MultiViews
 
   # /index.html -> /      (and /some/dir/index.html -> /some/dir/)
   RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+  # ...but only if that index.html is really there, so a request for a missing
+  # page 404s instead of 301-ing into a dead end (a redirect browsers cache).
+  RewriteCond %{DOCUMENT_ROOT}/%1index.html -f
   RewriteRule ^ /%1 [R=301,L,NE]
 
   # /tictactoe.html -> /tictactoe
   RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+  RewriteCond %{DOCUMENT_ROOT}/%1.html -f
   RewriteRule ^ /%1 [R=301,L,NE]
 
   # /tictactoe/ -> /tictactoe      (no trailing-slash duplicate of the same page)
