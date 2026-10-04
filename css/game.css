@@ -69,9 +69,17 @@
   padding: clamp(10px, 2vw, 16px);
 }
 
+/* The field is 4:5, so its height follows its width and both caps are written
+   as widths: 480px is for a desktop, the viewport term is for a phone. It used
+   to be 56svh of width — 70svh of height — which only fits when the fixed
+   chrome around the field (header, page head, HUD, pad) comes to under 30% of
+   the viewport, i.e. a screen about 1100px tall. On a phone that is never true,
+   so the touch pad ended up below the fold. 260px is roughly that chrome with
+   the short-viewport trims below applied, which means the field only gives up
+   width on the shortest screens instead of on every phone. */
 .screen--invasion {
-  width: min(100%, 480px, 56vh);
-  width: min(100%, 480px, 56svh);
+  width: min(100%, 480px, calc((100vh - 260px) * 0.8));
+  width: min(100%, 480px, calc((100svh - 260px) * 0.8));
   aspect-ratio: 4 / 5;
   margin-inline: auto;
 }
@@ -242,6 +250,54 @@
 .pad__btn--accent {
   border-color: rgba(var(--accent-2-rgb), 0.5);
   background: linear-gradient(180deg, rgba(var(--accent-2-rgb), 0.18), rgba(var(--accent-2-rgb), 0.04));
+}
+
+/* ==========================================================================
+   small screens (phones)
+   ========================================================================== */
+
+/* Everything above and below the field is a fixed height, and together it was
+   enough to push the touch pad off the bottom of a phone screen. Trim the fixed
+   parts — all of it is breathing room rather than content — and let the field
+   take the rest of the slack through the height budget on .screen--invasion.
+   700px covers every phone and leaves a desktop window alone. */
+@media (max-height: 700px) {
+  .bezel {
+    padding: 8px;
+  }
+
+  .hud {
+    margin-bottom: 6px;
+  }
+
+  .hud__cell {
+    padding: 0.3rem 0.45rem;
+  }
+
+  .pad--row {
+    margin-top: 8px;
+  }
+
+  .pad--row .pad__btn {
+    min-height: 64px;
+  }
+}
+
+/* Four HUD cells at the default size do not fit a 320px-wide screen, so the row
+   wrapped: "Hi-Score" alone needs ~67px and its cell had a 74px floor, plus
+   padding. That second row cost 28px of height — the same 28px the pad needed.
+   Tighten the cells to keep one row rather than let it wrap. Only very narrow
+   screens are affected; at 360px the row already fits. */
+@media (max-width: 380px) {
+  .hud__cell {
+    min-width: 0;
+    padding: 0.28rem 0.3rem;
+  }
+
+  .hud__cell h3 {
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+  }
 }
 
 /* ==========================================================================

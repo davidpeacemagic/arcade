@@ -404,3 +404,35 @@
   display: block;
   margin-bottom: 0.35rem;
 }
+
+/* ==========================================================================
+   short viewports (phones)
+   ========================================================================== */
+
+/* A compressed page frame for screens under ~700px tall, where the header, the
+   page heading and the footer together leave too little room for a game: on a
+   640px screen the invasion pad sat 64px below the fold. The eyebrow is a nice
+   label on a tall screen and pure overhead on a short one, and the <h1> can
+   come down a step without losing the page its name — the header hides its own
+   copy of the title on a phone. */
+@media (max-height: 700px) {
+  .site__main {
+    padding-block: 0.75rem clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .page-head {
+    margin-bottom: 0.6rem;
+  }
+
+  .page-head .eyebrow {
+    display: none;
+  }
+
+  .page-head h1 {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .ftr {
+    padding-block: 1rem;
+  }
+}
